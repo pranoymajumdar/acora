@@ -11,6 +11,10 @@ export default [
     route('/forgot-password', './routes/auth/ForgotPassword/index.tsx')
   ]),
   layout('./layouts/AdminLayout.tsx', [
-    route('admin/dashboard/', './routes/admin/Dashboard/index.tsx')
+    route('admin/dashboard', './routes/admin/Dashboard/index.tsx'),
+    route('admin/orders', './routes/admin/Orders/index.tsx'),
+    route('admin/customers', './routes/admin/Customers/index.tsx'),
+    route('admin/settings', './routes/admin/Settings/index.tsx'),
+    route('admin/products', './routes/admin/Products/index.tsx')
   ])
 ] satisfies RouteConfig;

@@ -13,13 +13,13 @@ export default function OverviewCard({
   footerData: string;
 }) {
   return (
-    <Card className="w-full flex-shrink-0 gap-0 md:w-[350px]">
+    <Card className="w-full flex-shrink-0 gap-0">
       <CardHeader className="w-full flex-row p-6 pb-2">
-        <CardTitle className="flex items-center justify-center gap-4 text-xl font-medium">
+        <CardTitle className="flex w-full items-center justify-between gap-4 font-normal">
           <span>{title}</span>
-          <span className="flex items-center gap-1 text-lg text-green-500">
+          <span className="flex items-center gap-1 text-green-500">
             {titleData}
-            <LucideArrowUp />
+            <LucideArrowUp className="h-4 w-4" />
           </span>
         </CardTitle>
       </CardHeader>

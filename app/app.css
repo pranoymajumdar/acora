@@ -99,16 +99,16 @@
   }
 
   .vertical-scrollbar::-webkit-scrollbar {
-    @apply w-2 h-1
+    @apply h-1 w-2;
   }
 
   .vertical-scrollbar::-webkit-scrollbar-track {
-    @apply bg-background
+    @apply bg-background;
   }
   .vertical-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-secondary/30 rounded-md
+    @apply rounded-md bg-secondary/30;
   }
   .vertical-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-accent
+    @apply bg-accent;
   }
 }
