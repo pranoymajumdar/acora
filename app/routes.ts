@@ -7,7 +7,7 @@ export default [
   ]),
   layout('./layouts/AuthLayout.tsx', [
     route('/login', './routes/auth/Login/index.tsx'),
-    route('/register', './routes/auth/Register/index.tsx'),
+    route('/sign-up', './routes/auth/SignUp/index.tsx'),
     route('/forgot-password', './routes/auth/ForgotPassword/index.tsx')
   ]),
   layout('./layouts/AdminLayout.tsx', [

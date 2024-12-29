@@ -21,8 +21,8 @@ export default function Login() {
       <div className='flex w-fit flex-col gap-6'>
         <Card className='relative'>
           <CardHeader className='max-sm:text-center'>
-            <CardTitle className="text-xl">Welcome back!</CardTitle>
-            <CardDescription>Enter your email below to login to your account.</CardDescription>
+            <CardTitle className="text-2xl">Sign Up</CardTitle>
+            <CardDescription>Enter your email below to create your account.</CardDescription>
           </CardHeader>
           <CardContent>
             <form>
@@ -34,27 +34,17 @@ export default function Login() {
                 <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <Link
-                      to="#"
-                      className="ml-auto hidden text-sm underline-offset-4 hover:underline sm:inline-block">
-                      Forgot your password?
-                    </Link>
                   </div>
                   <Input id="password" type="password" required />
                 </div>
-                <Link
-                  to="#"
-                  className="mx-auto inline-block text-sm underline-offset-4 hover:underline sm:hidden">
-                  Forgot your password?
-                </Link>
                 <Button type="submit" className="w-full">
-                  Login
+                  Create your account
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{' '}
-                <Link to="/sign-up" className="underline underline-offset-4">
-                  Sign up
+                already have an account?{' '}
+                <Link to="/login" className="underline underline-offset-4">
+                  Login
                 </Link>
               </div>
             </form>

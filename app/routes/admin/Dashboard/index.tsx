@@ -1,7 +1,4 @@
-import { LucideArrowUp } from 'lucide-react';
-import OverviewCard from '~/components/admin/OverviewCard';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import Overview from './Tabs/Overview';
 
 export default function Dashboard() {
@@ -10,25 +7,29 @@ export default function Dashboard() {
       <section className="flex w-full flex-col items-start gap-5">
         <h2 className="text-3xl font-bold">Dashboard</h2>
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList>
+          <TabsList className="bg-transparent">
             <TabsTrigger
               value="overview"
-              className="data-[state=active]:bg-muted data-[state=active]:shadow-none">
+              className="data-[state=active]:bg-muted data-[state=active]:shadow-none"
+            >
               Overview
             </TabsTrigger>
             <TabsTrigger
               value="analytics"
-              className="data-[state=active]:bg-muted data-[state=active]:shadow-none">
+              className="data-[state=active]:bg-muted data-[state=active]:shadow-none"
+            >
               Analytics
             </TabsTrigger>
             <TabsTrigger
               value="payments"
-              className="data-[state=active]:bg-muted data-[state=active]:shadow-none">
+              className="data-[state=active]:bg-muted data-[state=active]:shadow-none"
+            >
               Payments
             </TabsTrigger>
             <TabsTrigger
               value="notifications"
-              className="data-[state=active]:bg-muted data-[state=active]:shadow-none">
+              className="data-[state=active]:bg-muted data-[state=active]:shadow-none"
+            >
               Notifications
             </TabsTrigger>
           </TabsList>

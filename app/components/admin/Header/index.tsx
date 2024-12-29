@@ -27,13 +27,13 @@ export default function Header() {
                   cn('text-sm font-medium text-muted-foreground hover:text-foreground', {
                     'text-foreground': isActive
                   })
-                }>
+                }
+              >
                 {name}
               </NavLink>
             ))}
           </nav>
         </div>
-
         <div className="flex items-center justify-end">
           <Button>Login</Button>
         </div>
