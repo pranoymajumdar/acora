@@ -1,66 +1,57 @@
-import { cn } from '~/lib/utils';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
-import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Link } from 'react-router';
-import { GridPattern } from '~/components/ui/grid-pattern';
+import PasswordInput from '~/components/auth/PasswordInput';
+import EmailInput from '~/components/auth/EmailInput';
+import { Checkbox } from '~/components/ui/checkbox';
 
 export default function Login() {
   return (
-    <section className="flex h-screen items-center justify-center px-4 sm:px-6 md:px-8 lg:px-12">
-      <GridPattern
-        width={20}
-        height={20}
-        x={-1}
-        y={-1}
-        className={cn(
-          "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
-        )}
-      />
-      <div className='flex w-fit flex-col gap-6'>
-        <Card className='relative'>
-          <CardHeader className='max-sm:text-center'>
-            <CardTitle className="text-xl">Welcome back!</CardTitle>
-            <CardDescription>Enter your email below to login to your account.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@example.com" required />
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <Link
-                      to="#"
-                      className="ml-auto hidden text-sm underline-offset-4 hover:underline sm:inline-block">
-                      Forgot your password?
-                    </Link>
-                  </div>
-                  <Input id="password" type="password" required />
+    <div className="flex w-fit flex-col gap-6">
+      <Card className="relative">
+        <CardHeader className="max-sm:text-center">
+          <CardTitle className="text-xl">Welcome back!</CardTitle>
+          <CardDescription>Enter your email below to login to your account.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <EmailInput id="email" onChange={(ev) => ev.target.value} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <PasswordInput id="password" onChange={(ev) => ev.target.value} />
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="remember-me" />
+                  <Label htmlFor="remember-me" className="text-muted-foreground">
+                    Remember me
+                  </Label>
                 </div>
                 <Link
                   to="#"
-                  className="mx-auto inline-block text-sm underline-offset-4 hover:underline sm:hidden">
+                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                >
                   Forgot your password?
                 </Link>
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
               </div>
-              <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{' '}
-                <Link to="/sign-up" className="underline underline-offset-4">
-                  Sign up
-                </Link>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </div>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{' '}
+              <Link to="/sign-up" className="underline underline-offset-4">
+                Sign up
+              </Link>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
