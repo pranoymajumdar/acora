@@ -7,7 +7,7 @@ import { Label } from '~/components/ui/label';
 export default function Login() {
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 text-center lg:text-start">
         <div className="text-2xl font-bold">Create your account</div>
         <div className="text-muted-foreground">
           Enter your email below to create to your account.

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-
+import { LoaderCircle } from 'lucide-react';
 import { cn } from '~/lib/utils';
 
 const buttonVariants = cva(
@@ -47,4 +47,30 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = 'Button';
 
-export { Button, buttonVariants };
+interface ButtonWithLoaderProps extends ButtonProps {
+  loading?: boolean;
+}
+const ButtonWithLoader = React.forwardRef<HTMLButtonElement, ButtonWithLoaderProps>(
+  ({ className, variant, size, asChild = false, children, loading = false, ...props }, ref) => {
+    if (asChild) throw new Error('You can not use `asChild` with `ButtonWithLoader`');
+
+    return (
+      <button
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+        disabled={loading}>
+        {loading && (
+          <LoaderCircle
+            className="-ms-1 me-2 animate-spin"
+            size={16}
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+        )}
+        {children}
+      </button>
+    );
+  }
+);
+export { Button, buttonVariants, ButtonWithLoader };
