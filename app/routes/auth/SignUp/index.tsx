@@ -2,9 +2,10 @@ import { Link } from 'react-router';
 import EmailInput from '~/components/auth/EmailInput';
 import PasswordInput from '~/components/auth/PasswordInput';
 import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 
-export default function Login() {
+export default function Signup() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1 text-center lg:text-start">
@@ -14,6 +15,10 @@ export default function Login() {
         </div>
       </div>
       <form className="flex flex-col gap-5">
+        <div className="grid gap-2">
+          <Label htmlFor="full-name">Full Name</Label>
+          <Input id="full-name" onChange={(ev) => ev.target.value} />
+        </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <EmailInput id="email" onChange={(ev) => ev.target.value} />

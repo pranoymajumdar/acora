@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { LoaderCircle } from 'lucide-react';
+import { LucideLoaderCircle } from 'lucide-react';
 import { cn } from '~/lib/utils';
 
 const buttonVariants = cva(
@@ -61,7 +61,7 @@ const ButtonWithLoader = React.forwardRef<HTMLButtonElement, ButtonWithLoaderPro
         {...props}
         disabled={loading}>
         {loading && (
-          <LoaderCircle
+          <LucideLoaderCircle
             className="-ms-1 me-2 animate-spin"
             size={16}
             strokeWidth={2}
