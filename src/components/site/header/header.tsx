@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <header className="sticky z-50 h-14 supports-[backdrop-filter]:bg-background/60 backdrop-blur top-0 border-b">
       <Container className="h-full flex items-center justify-between px-4">
-        <HeaderSection className="space-x-6">
+        <HeaderSection className="flex items-center justify-center gap-6">
           <HeaderLogo />
           <HeaderNavigation />
         </HeaderSection>

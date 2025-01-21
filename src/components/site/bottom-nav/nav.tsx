@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export default function BottomNavigation() {
   const pathName = usePathname();
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-14 border-t px-4 py-3 flex items-center justify-around sm:hidden">
+    <div className="sticky bottom-0 left-0 right-0 h-14 border-t px-4 py-3 flex items-center justify-around sm:hidden bg-background/95 backdrop-blur">
       {navLinks &&
         navLinks.map(({ href, icon: Icon, title }) => (
           <Link
@@ -19,8 +19,8 @@ export default function BottomNavigation() {
               pathName === href ? "text-foreground" : "text-muted-foreground"
             )}
           >
-            <Icon className="w-6 h-6" />
-            <span className="text-sm">{title}</span>
+            <Icon className="w-5 h-5" />
+            <span className="text-xs">{title}</span>
           </Link>
         ))}
     </div>
