@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <Header />
         {children}
-        <BottomNavigation/>
+        <BottomNavigation />
       </body>
     </html>
   );
