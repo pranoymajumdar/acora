@@ -1,14 +1,16 @@
+import ProductCard from "@/components/site/product-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { ProductType } from "@/types/product";
 import Link from "next/link";
-import ProductCard from "@/components/site/product-card";
 
 type Props = {
   name: string;
   description: string;
   href: string;
+  products: ProductType[];
 };
-export default function ProductCarousel({ name, description, href }: Props) {
+export default function ProductSection({ name, description, href, products }: Props) {
   return (
     <section className="flex flex-col gap-5 space-y-5">
       <div className="flex items-center justify-between gap-3">
@@ -29,13 +31,10 @@ export default function ProductCarousel({ name, description, href }: Props) {
           View more
         </Link>
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {
-            Array.from({length: 4}, (_, k) => (
-                <ProductCard
-                key={k}
-                />
-            ))
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 xl:gap-x-8">
+        {products.map((product) => (
+          <ProductCard key={product.id} {...product} />
+        ))
         }
       </div>
     </section>

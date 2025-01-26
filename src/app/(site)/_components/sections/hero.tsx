@@ -72,13 +72,16 @@ export default function HeroSection() {
                 }}
                 size={100}
               />
-              <Image
-                width={100}
-                height={100}
-                src="/placeholder.svg"
-                alt="Premium Fashion Accessories"
-                className="w-full h-auto rounded-md object-cover"
-              />
+              <div className="relative aspect-square overflow-hidden rounded-lg bg-muted/30">
+                <Image
+                  src='https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png'
+                  alt='Hero Image'
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  priority
+                />
+              </div>
               {/* Floating card */}
               <div className="absolute -bottom-4 -left-4 rounded-lg bg-card p-4 shadow-sm border">
                 <p className="font-medium">Limited Edition</p>
