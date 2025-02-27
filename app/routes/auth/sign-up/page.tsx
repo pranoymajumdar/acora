@@ -6,12 +6,11 @@ import {
   LucideUser,
 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
 import AuthSeparator from "~/components/auth/auth-separator";
 import GoogleAuthButton from "~/components/auth/google-auth-button";
 import AuthInput from "~/components/auth/input";
 import PasswordRequirements from "~/components/auth/password-requirements";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -21,7 +20,6 @@ import {
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { cn } from "~/lib/utils";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -130,19 +128,12 @@ export default function SignUp() {
           <span className="text-sm text-muted-foreground">
             Already have an account?
           </span>
-          <Link
-            to="/sign-in"
-            className={cn(
-              buttonVariants({
-                variant: "link",
-                className: "p-0 h-auto ml-1 font-normal text-sm",
-              })
-            )}
-          >
+          <Button href="/sign-in" variant="link" className="text-sm">
             Sign in
-          </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>
   );
 }
+ 

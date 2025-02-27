@@ -93,15 +93,9 @@ export default function SignIn() {
         {/* Sign Up Link */}
         <p className="text-sm text-muted-foreground">
           Don't have an account?{" "}
-          <Link
-            to="/sign-up"
-            className={cn(
-              buttonVariants({ variant: "link" }),
-              "p-0 h-auto mx-1 font-normal text-sm"
-            )}
-          >
+          <Button href="/sign-up" variant="link" className="text-sm"> 
             Sign up
-          </Link>
+          </Button>
         </p>
       </CardFooter>
     </Card>

@@ -1,7 +1,6 @@
-import { ArrowLeft, LucideMail } from "lucide-react";
-import { Link } from "react-router";
+import { LucideArrowLeft, LucideMail } from "lucide-react";
 import AuthInput from "~/components/auth/input";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
     Card,
     CardContent,
@@ -10,15 +9,9 @@ import {
     CardHeader,
     CardTitle,
 } from "~/components/ui/card";
-import { Container } from "~/components/ui/container";
-import { cn } from "~/lib/utils";
 
 export default function ForgotPassword() {
   return (
-    <Container
-      as="main"
-      className="min-h-screen grid items-center justify-center py-8"
-    >
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-2">
           <CardTitle className="text-2xl font-bold text-center">
@@ -60,20 +53,11 @@ export default function ForgotPassword() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Link
-            to="/sign-in"
-            className={cn(
-              buttonVariants({
-                variant: "link",
-                className: "flex items-center gap-1 text-sm"
-              })
-            )}
-          >
-            <ArrowLeft size={16} />
+          <Button href="/sign-in" variant="link" className="text-sm">
+            <LucideArrowLeft size={16} />
             <span>Back to Sign In</span>
-          </Link>
+          </Button>
         </CardFooter>
       </Card>
-    </Container>
   );
 }

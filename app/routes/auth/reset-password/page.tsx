@@ -6,14 +6,13 @@ import {
   CardTitle,
   CardFooter,
 } from "~/components/ui/card";
-import { Container } from "~/components/ui/container";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useState } from "react";
 import {
-  CheckCircle,
   LucideAlertCircle,
+  LucideArrowLeft,
   LucideCheckCircle,
   LucideEye,
   LucideEyeOff,
@@ -48,10 +47,6 @@ export default function ResetPassword() {
   };
 
   return (
-    <Container
-      as="main"
-      className="min-h-screen grid items-center justify-center py-8"
-    >
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-2">
           <CardTitle className="text-2xl font-bold text-center">
@@ -76,7 +71,7 @@ export default function ResetPassword() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 text-gray-500 hover:bg-transparent"
+                className="absolute right-0 top-0 h-full px-3 py-2 text-muted-foreground hover:bg-transparent"
                 onClick={toggleNewPasswordVisibility}
                 aria-label={showNewPassword ? "Hide password" : "Show password"}
               >
@@ -90,7 +85,7 @@ export default function ResetPassword() {
 
             {/* Password strength indicator */}
             <div className="space-y-2">
-              <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
                 <div
                   className={`h-full ${
                     passwordStrength <= 25
@@ -117,7 +112,7 @@ export default function ResetPassword() {
             <ul className="space-y-1">
               <li className="flex items-center gap-2">
                 {passwordStrength >= 25 ? (
-                  <CheckCircle className="text-green-500 h-4 w-4" />
+                  <LucideCheckCircle className="text-green-500 h-4 w-4" />
                 ) : (
                   <LucideAlertCircle className="text-muted-foreground h-4 w-4" />
                 )}
@@ -163,7 +158,7 @@ export default function ResetPassword() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 text-gray-500 hover:bg-transparent"
+                className="absolute right-0 top-0 h-full px-3 py-2 text-muted-foreground hover:bg-transparent"
                 onClick={toggleConfirmPasswordVisibility}
                 aria-label={
                   showConfirmPassword ? "Hide password" : "Show password"
@@ -187,11 +182,11 @@ export default function ResetPassword() {
           </Button>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button variant="link" className="text-sm">
+          <Button href="/sign-in" variant="link" className="text-sm">
+            <LucideArrowLeft size={16} />
             Back to Sign In
           </Button>
         </CardFooter>
       </Card>
-    </Container>
   );
 }
