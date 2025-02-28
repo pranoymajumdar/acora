@@ -1,13 +1,13 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import pg from "pg";
 
 const globalForDb = globalThis as unknown as {
-  conn: Pool | undefined;
+  conn: pg.Pool | undefined;
 };
 
 const conn =
   globalForDb.conn ??
-  new Pool({
+  new pg.Pool({
     connectionString: process.env.DATABASE_URL,
   });
 

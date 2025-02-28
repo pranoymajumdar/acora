@@ -1,7 +1,7 @@
-import React from 'react'
+
 import { Separator } from '../ui/separator';
 
-export default function AuthSeparator() {
+export const AuthSeparator = () => {
   return (
     <div className="flex items-center gap-4 my-6">
       <Separator className="h-px flex-1" />

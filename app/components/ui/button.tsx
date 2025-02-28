@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { useNavigate } from "react-router";
 import { cn } from "~/lib/utils";
 
 const buttonVariants = cva(
@@ -38,17 +37,11 @@ type ButtonProps = React.ComponentPropsWithoutRef<"button"> &
   };
 
 const Button: React.FC<ButtonProps> = ({ className, variant, size, asChild = false, href, ...props }) => {
-  const navigate = useNavigate();
   const Comp = asChild ? Slot : "button";
-
-  const handleClick = React.useCallback(() => {
-    if (href) navigate(href);
-  }, [href, navigate]);
 
   return (
     <Comp
       data-slot="button"
-      onClick={href ? handleClick : props.onClick}
       className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     />

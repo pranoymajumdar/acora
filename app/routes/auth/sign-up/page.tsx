@@ -1,16 +1,8 @@
-import {
-  LucideEye,
-  LucideEyeOff,
-  LucideMail,
-  LucidePhone,
-  LucideUser,
-} from "lucide-react";
-import { useState } from "react";
-import AuthSeparator from "~/components/auth/auth-separator";
-import GoogleAuthButton from "~/components/auth/google-auth-button";
-import AuthInput from "~/components/auth/input";
-import PasswordRequirements from "~/components/auth/password-requirements";
-import { Button } from "~/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { AuthSeparator } from "~/components/auth/auth-separator";
+import { GoogleAuthButton } from "~/components/auth/google-auth-button";
 import {
   Card,
   CardContent,
@@ -18,12 +10,46 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+import { Form } from "~/components/ui/form";
+import { SignUpFields } from "./components/fields";
+import { SignUpFooter } from "./components/sign-up-footer";
+import { formSchema } from "./form-schema";
+import { signUp } from "~/lib/auth-client";
 
 export default function SignUp() {
-  const [showPassword, setShowPassword] = useState(false);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await signUp.email(
+      {
+        email: values.email,
+        password: values.password,
+        name: values.fullName,
+        callbackURL: '/'
+      },
+      {
+        onRequest: (ctx) => {
+          console.log("Loading");
+        },
+        onSuccess: (ctx) => {
+          console.log("Successfull");
+        },
+        onError: (ctx) => {
+          // display the error message
+          console.log(ctx.error)
+          alert(ctx.error.message);
+        },
+      }
+    );
+  }
   return (
     <Card className="w-full max-w-md shadow-lg">
       <CardHeader className="space-y-2">
@@ -36,104 +62,12 @@ export default function SignUp() {
       </CardHeader>
       <CardContent className="space-y-6">
         <GoogleAuthButton />
-        <AuthSeparator/>
-
-        {/* Form Fields */}
-        <div className="space-y-4">
-          {/* Full Name */}
-          <div className="space-y-2">
-            <AuthInput
-              label="Full Name"
-              placeholder="Enter your full name" 
-              type="text"
-              icon={LucideUser}
-            />
-          </div>
-
-          {/* Email */}
-          <div className="space-y-2">
-            <AuthInput
-              label="Email"
-              placeholder="you@example.com"
-              type="email"
-              icon={LucideMail}
-            />
-          </div>
-
-          {/* Password */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <PasswordRequirements />
-            </div>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full px-3 py-2 text-muted-foreground hover:bg-transparent"
-                onClick={() => setShowPassword((prevState) => !prevState)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? (
-                  <LucideEyeOff size={16} />
-                ) : (
-                  <LucideEye size={16} />
-                )}
-              </Button>
-            </div>
-          </div>
-
-          {/* Phone Number */}
-          <div className="space-y-2">
-            <AuthInput
-              label="Phone Number"
-              placeholder="+1 (555) 000-0000"
-              type="tel"
-              icon={LucidePhone}
-            />
-          </div>
-        </div>
-
-        {/* Sign Up Button */}  
-        <Button className="w-full" size="lg">
-          Create Account
-        </Button>
-
-        {/* Terms & Conditions */}
-        <p className="text-xs text-muted-foreground text-center">
-          By creating an account, you agree to our
-          <Button
-            variant="link"
-            className="p-0 h-auto mx-1 font-normal text-xs"
-          >
-            Terms of Service
-          </Button>
-          and
-          <Button
-            variant="link"
-            className="p-0 h-auto mx-1 font-normal text-xs"
-          >
-            Privacy Policy
-          </Button>
-        </p>
-
-        {/* Sign In Link */}
-        <div className="text-center">
-          <span className="text-sm text-muted-foreground">
-            Already have an account?
-          </span>
-          <Button href="/sign-in" variant="link" className="text-sm">
-            Sign in
-          </Button>
-        </div>
+        <AuthSeparator />
+        <Form {...form}>
+          <SignUpFields form={form} onSubmit={onSubmit} />
+        </Form>
       </CardContent>
+      <SignUpFooter />
     </Card>
   );
 }
- 
