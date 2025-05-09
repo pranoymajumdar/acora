@@ -6,7 +6,7 @@ export const passwordSchema = z
   .max(265, "Password must be at most 265 characters")
   .regex(
     /^(?=.*[a-zA-Z])(?=.*\d).{8,265}$/,
-    "Password must contain at least one letter and one number"
+    "Password must contain at least one letter and one number",
   );
 
 export const signInSchema = z.object({

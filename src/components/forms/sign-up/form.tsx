@@ -1,0 +1,157 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { signUpSchema, type SignUpInput } from "@/app/zod-schemas/auth";
+import { signUpAction } from "@/app/actions/auth";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { FormError } from "../form-error";
+
+export const SignUpForm = ({
+  afterSignUp,
+}: {
+  afterSignUp: "redirect" | "refresh";
+}) => {
+  const form = useForm<SignUpInput>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  function onSubmit(values: SignUpInput) {
+    startTransition(async () => {
+      const res = await signUpAction(values);
+      if (res.success) {
+        if (afterSignUp === "redirect") {
+          router.push("/");
+          router.refresh();
+        } else {
+          router.back();
+          router.refresh();
+        }
+      } else {
+        setError(res.error);
+      }
+    });
+  }
+
+  return (
+    <Form {...form}>
+      {error && <FormError error={error} />}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid gap-4">
+          {/* Name Field */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel htmlFor="name">Full Name</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    id="name"
+                    placeholder="John Doe"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Email Field */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    id="email"
+                    disabled={isPending}
+                    placeholder="johndoe@mail.com"
+                    type="email"
+                    autoComplete="email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Password Field */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    id="password"
+                    disabled={isPending}
+                    placeholder="••••••••"
+                    autoComplete="new-password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Confirm Password Field */}
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel htmlFor="confirmPassword">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <PasswordInput
+                    id="confirmPassword"
+                    disabled={isPending}
+                    placeholder="••••••••"
+                    autoComplete="new-password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button disabled={isPending} type="submit" className="w-full">
+            {isPending ? "Processing..." : "Submit"}
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+};
