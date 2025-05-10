@@ -25,7 +25,7 @@ import {
 import type { SessionUserType } from "@/lib/auth/core/session";
 import { useRouter } from "next/navigation";
 
-export const DashboardNavUser = ({ user }: { user: SessionUserType }) => {
+export const SidebarUser = ({ user }: { user: SessionUserType }) => {
   const { isMobile } = useSidebar();
   const router = useRouter();
   return (

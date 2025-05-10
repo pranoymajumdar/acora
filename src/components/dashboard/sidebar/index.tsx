@@ -10,16 +10,16 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import type { SessionUserType } from "@/lib/auth/core/session";
-import { DashboardNavUser } from "./nav-user";
 import type { ComponentProps } from "react";
-import { AcoraLogo } from "../logo";
 import {
   LucideLayers,
   LucideLayoutDashboard,
   LucidePackage,
   LucideShoppingCart,
 } from "lucide-react";
-import { NavMain } from "./nav-main";
+import { AcoraLogo } from "@/components/logo";
+import { SidebarUser } from "./sidebar-user";
+import { SidebarNav } from "./sidebar-nav";
 
 const navLinks = [
   {
@@ -63,10 +63,10 @@ export const DashboardSidebar = ({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navLinks} />
+        <SidebarNav items={navLinks} />
       </SidebarContent>
       <SidebarFooter>
-        <DashboardNavUser user={user} />
+        <SidebarUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

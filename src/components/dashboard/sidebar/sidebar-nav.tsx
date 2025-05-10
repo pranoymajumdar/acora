@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { usePathname, useRouter } from "next/navigation";
 
-export function NavMain({
+export function SidebarNav({
   items,
 }: {
   items: {
