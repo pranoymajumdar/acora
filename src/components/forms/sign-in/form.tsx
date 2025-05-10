@@ -18,9 +18,9 @@ import { signInSchema, type SignInInput } from "@/zod-schemas/auth";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useState, useTransition } from "react";
-import { FormError } from "../form-error";
 import { signInAction } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
+import { ErrorAlert } from "@/components/error-alert";
 
 export const SignInForm = ({
   afterSignIn,
@@ -55,7 +55,7 @@ export const SignInForm = ({
   return (
     <>
       <Form {...form}>
-        {error && <FormError error={error} />}
+        {error && <ErrorAlert error={error} />}
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid gap-4">
             <FormField

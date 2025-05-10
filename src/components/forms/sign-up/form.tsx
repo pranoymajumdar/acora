@@ -19,8 +19,8 @@ import { signUpSchema, type SignUpInput } from "@/zod-schemas/auth";
 import { signUpAction } from "@/app/actions/auth";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { FormError } from "../form-error";
 import Link from "next/link";
+import { ErrorAlert } from "@/components/error-alert";
 
 export const SignUpForm = ({
   afterSignUp,
@@ -58,7 +58,7 @@ export const SignUpForm = ({
   return (
     <>
       <Form {...form}>
-        {error && <FormError error={error} />}
+        {error && <ErrorAlert error={error} />}
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid gap-4">
             {/* Name Field */}

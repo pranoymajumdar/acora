@@ -1,5 +1,6 @@
 "use client";
 import { signOutAction } from "@/app/actions/auth";
+import { ErrorAlert } from "@/components/error-alert";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,6 +39,7 @@ const SignOutDialog = () => {
             password to log back in.
           </AlertDialogDescription>
         </AlertDialogHeader>
+        {error && <ErrorAlert error={error} />}
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleClick} disabled={isPending}>

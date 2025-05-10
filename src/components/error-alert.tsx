@@ -1,7 +1,7 @@
 import { LucideAlertCircle } from "lucide-react";
-import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 
-export const FormError = ({ error }: { error: string }) => {
+export const ErrorAlert = ({ error }: { error: string }) => {
   return (
     <Alert variant="destructive">
       <LucideAlertCircle className="h-4 w-4" />
