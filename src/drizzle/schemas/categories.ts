@@ -1,3 +1,4 @@
+import type { InferSelectModel } from "drizzle-orm";
 import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const categoriesTable = pgTable("categories", {
@@ -15,3 +16,6 @@ export const subCategoriesTable = pgTable("sub_categories", {
   name: varchar("name").notNull(),
   slug: varchar("slug").notNull().unique(),
 });
+
+export type CategoriesSelect = InferSelectModel<typeof categoriesTable>;
+export type SubCategoriesSelect = InferSelectModel<typeof subCategoriesTable>;

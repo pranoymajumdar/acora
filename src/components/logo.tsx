@@ -7,7 +7,7 @@ export const AcoraLogo = ({
 }) => {
   // Using Tailwind classes based on the size prop
   // We'll use a base reference size of 32px
-  let containerClasses = "flex items-center";
+  const containerClasses = "flex items-center";
   let letterClasses =
     "bg-primary text-primary-foreground rounded-md font-semibold antialiased";
   let textClasses =

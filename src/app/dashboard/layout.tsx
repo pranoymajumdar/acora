@@ -16,7 +16,7 @@ const DashboardLayout = async ({
       <DashboardSidebar variant="inset" user={session.user} />
       <SidebarInset>
         <DashboardSiteHeader />
-        <main className="p-6">{children}</main>
+        {children}
       </SidebarInset>
     </SidebarProvider>
   );
