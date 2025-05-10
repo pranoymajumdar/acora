@@ -44,10 +44,8 @@ export const SignInForm = ({
       if (res.success) {
         if (afterSignIn === "redirect") {
           router.push("/");
-          router.refresh();
         } else {
           router.back();
-          router.refresh();
         }
       } else {
         setError(res.error);

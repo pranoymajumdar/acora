@@ -2,6 +2,7 @@ import { redisClient } from "@/lib/redis-client";
 import { userRoles, userThemes } from "@/drizzle/schemas/users";
 import * as crypto from "node:crypto";
 import { z } from "zod";
+import type { ActionResponseType } from "@/types/action-response";
 
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
 const SESSION_COOKIE_KEY = "session-id";
@@ -92,4 +93,25 @@ export const getUserSession = async (
 
   // Returning the parsed data if success else returning null
   return success ? data : null;
+};
+
+export const deleteUserSession = async (
+  cookies: Cookies
+): Promise<ActionResponseType> => {
+  // Getting the session
+  const session = await getUserSession(cookies);
+
+  // If there is no session we will return an no session found error
+  if (!session) return { success: false, error: "No session found" };
+
+  // Deleting the session id from cookies
+  cookies.delete(SESSION_COOKIE_KEY);
+
+  // Deleting the session data from redis
+  await redisClient.del(sessionKey(session.id));
+
+  // Returning a success response
+  return {
+    success: true,
+  };
 };

@@ -1,7 +1,7 @@
-import { LucideLogOut } from "lucide-react";
+"use client";
+import { LucideLayoutDashboard, LucideLogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,14 +12,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { SessionUserType } from "@/lib/auth/core/session";
+import { useRouter } from "next/navigation";
 
 export const NavUser = ({ user }: { user: SessionUserType }) => {
+  const router = useRouter();
   const getAvatarFallback = (): string => {
     const split = user.name.split(" ");
     return `${split[0].slice(0, 1)}${
       split.length > 0 ? split[1].slice(0, 1) : ""
     }`;
   };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,7 +31,7 @@ export const NavUser = ({ user }: { user: SessionUserType }) => {
           <AvatarFallback>{getAvatarFallback()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-64">
+      <DropdownMenuContent className="max-w-min min-w-52">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">
             {user.name}
@@ -38,12 +41,21 @@ export const NavUser = ({ user }: { user: SessionUserType }) => {
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup></DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuItem onSelect={() => router.push("/dashboard")}>
+            <LucideLayoutDashboard
+              size={16}
+              className="opacity-60"
+              aria-hidden="true"
+            />
+            Dashboard
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => router.push("/sign-out")}>
           <LucideLogOut size={16} className="opacity-60" aria-hidden="true" />
-          <span>Logout</span>
+          <span>Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -5,12 +5,12 @@ import {
   signUpSchema,
   type SignInInput,
   type SignUpInput,
-} from "../../zod-schemas/auth";
+} from "@/zod-schemas/auth";
 import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { usersTable } from "@/drizzle/schemas/users";
 import { generateSalt, hashPassword } from "@/lib/auth/core/hash-password";
-import { createUserSession } from "@/lib/auth/core/session";
+import { createUserSession, deleteUserSession } from "@/lib/auth/core/session";
 import { cookies } from "next/headers";
 
 export const signUpAction = async (
@@ -68,13 +68,16 @@ export const signUpAction = async (
 export const signInAction = async (
   unsafeData: SignInInput
 ): Promise<ActionResponseType> => {
+  // Check wheather the data is actual schema data or not
   const { success, data } = signInSchema.safeParse(unsafeData);
   if (!success) return { success: false, error: "Invalid data" };
 
+  // Find the user using email
   const user = await db.query.users.findFirst({
     where: eq(usersTable.email, data.email),
   });
 
+  // If the user is not found
   if (!user)
     return {
       success: false,
@@ -82,9 +85,13 @@ export const signInAction = async (
         "The email or password you entered is incorrect. Please try again.",
     };
 
+  // Hashing the input password using the saved salt from usersTable
+  // then compairing the hash password to the usersTable password
   const validPassword =
     (await hashPassword(data.password, user.salt)) === user.password;
 
+  // If the input password hash is not equals to the user password hash
+  // then we will return an error response
   if (!validPassword)
     return {
       success: false,
@@ -92,6 +99,7 @@ export const signInAction = async (
         "The email or password you entered is incorrect. Please try again.",
     };
 
+  // Creating a new session
   await createUserSession(
     {
       id: user.id,
@@ -102,5 +110,11 @@ export const signInAction = async (
     },
     await cookies()
   );
+
+  // Returning a success response
   return { success: true };
+};
+
+export const signOutAction = async (): Promise<ActionResponseType> => {
+  return await deleteUserSession(await cookies());
 };

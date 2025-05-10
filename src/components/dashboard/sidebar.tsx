@@ -13,6 +13,36 @@ import type { SessionUserType } from "@/lib/auth/core/session";
 import { DashboardNavUser } from "./nav-user";
 import type { ComponentProps } from "react";
 import { AcoraLogo } from "../logo";
+import {
+  LucideLayers,
+  LucideLayoutDashboard,
+  LucidePackage,
+  LucideShoppingCart,
+} from "lucide-react";
+import { NavMain } from "./nav-main";
+
+const navLinks = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LucideLayoutDashboard,
+  },
+  {
+    title: "Categories",
+    url: "/dashboard/categories",
+    icon: LucideLayers,
+  },
+  {
+    title: "Products",
+    url: "/dashboard/products",
+    icon: LucidePackage,
+  },
+  {
+    title: "Orders",
+    url: "/dashboard/orders",
+    icon: LucideShoppingCart,
+  },
+];
 
 export const DashboardSidebar = ({
   user,
@@ -32,7 +62,9 @@ export const DashboardSidebar = ({
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent></SidebarContent>
+      <SidebarContent>
+        <NavMain items={navLinks} />
+      </SidebarContent>
       <SidebarFooter>
         <DashboardNavUser user={user} />
       </SidebarFooter>

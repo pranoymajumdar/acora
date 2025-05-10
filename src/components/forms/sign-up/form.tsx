@@ -46,10 +46,8 @@ export const SignUpForm = ({
       if (res.success) {
         if (afterSignUp === "redirect") {
           router.push("/");
-          router.refresh();
         } else {
           router.back();
-          router.refresh();
         }
       } else {
         setError(res.error);

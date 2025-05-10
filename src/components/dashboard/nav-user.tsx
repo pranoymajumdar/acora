@@ -23,10 +23,11 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import type { SessionUserType } from "@/lib/auth/core/session";
+import { useRouter } from "next/navigation";
 
 export const DashboardNavUser = ({ user }: { user: SessionUserType }) => {
   const { isMobile } = useSidebar();
-
+  const router = useRouter();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -77,9 +78,9 @@ export const DashboardNavUser = ({ user }: { user: SessionUserType }) => {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => router.push("/sign-out")}>
               <LucideLogOut />
-              Log out
+              Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
