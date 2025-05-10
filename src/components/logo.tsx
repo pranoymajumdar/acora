@@ -5,12 +5,13 @@ export const AcoraLogo = ({
   size?: number;
   showText?: boolean;
 }) => {
-  // Use Tailwind classes based on the size prop
+  // Using Tailwind classes based on the size prop
   // We'll use a base reference size of 32px
   let containerClasses = "flex items-center";
   let letterClasses =
     "bg-primary text-primary-foreground rounded-md font-semibold antialiased";
-  let textClasses = "font-semibold tracking-tight text-foreground";
+  let textClasses =
+    "font-semibold tracking-tight text-foreground group-data-[collapsible=icon]:hidden";
   let spacing = "space-x-2";
 
   // Adjust classes based on size

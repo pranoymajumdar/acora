@@ -49,7 +49,7 @@ export const DashboardSidebar = ({
   ...props
 }: ComponentProps<typeof Sidebar> & { user: SessionUserType }) => {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -57,7 +57,7 @@ export const DashboardSidebar = ({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <AcoraLogo />
+              <AcoraLogo size={14} />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
