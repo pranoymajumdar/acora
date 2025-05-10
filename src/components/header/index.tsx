@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { AcoraLogo } from "./logo";
-import { HeaderNavigation } from "./nav";
-import { Button, buttonVariants } from "./ui/button";
+import { HeaderNavigation } from "./header-nav";
 import { LucideSearch } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SessionUserType } from "@/lib/auth/core/session";
-import { NavUser } from "./nav-user";
+import { AcoraLogo } from "../logo";
+import { Button, buttonVariants } from "../ui/button";
+import { HeaderUser } from "./header-user";
 
 export const Header = ({ user }: { user: SessionUserType | null }) => {
   return (
@@ -24,7 +24,7 @@ export const Header = ({ user }: { user: SessionUserType | null }) => {
               <LucideSearch />
             </Button>
             {user ? (
-              <NavUser user={user} />
+              <HeaderUser user={user} />
             ) : (
               <Link
                 href="/sign-in"

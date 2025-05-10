@@ -14,7 +14,7 @@ import {
 import type { SessionUserType } from "@/lib/auth/core/session";
 import { useRouter } from "next/navigation";
 
-export const NavUser = ({ user }: { user: SessionUserType }) => {
+export const HeaderUser = ({ user }: { user: SessionUserType }) => {
   const router = useRouter();
   const getAvatarFallback = (): string => {
     const split = user.name.split(" ");
