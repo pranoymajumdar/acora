@@ -1,20 +1,26 @@
 import { redisClient } from "@/lib/redis-client";
-import { userRoles, userThemes } from "@/schemas/users";
+import { userRoles, userThemes } from "@/drizzle/schemas/users";
 import * as crypto from "node:crypto";
 import { z } from "zod";
 
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
 const SESSION_COOKIE_KEY = "session-id";
 
-const sessionSchema = z.object({
+const sessionUserSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
+  image: z.string().optional(),
   theme: z.enum(userThemes),
   role: z.enum(userRoles),
 });
+const sessionSchema = z.object({
+  id: z.string(),
+  user: sessionUserSchema,
+});
 
 export type SessionType = z.infer<typeof sessionSchema>;
+export type SessionUserType = z.infer<typeof sessionUserSchema>;
 
 export type Cookies = {
   set: (
@@ -36,18 +42,24 @@ const sessionKey = (sessionId: string) => {
 };
 
 export const createUserSession = async (
-  user: SessionType,
+  user: SessionUserType,
   cookies: Cookies
 ): Promise<null> => {
   // Generating a random random id
   const sessionId = crypto.randomBytes(512).toString("hex").normalize();
 
-  // Inserting the session id with user data into redis
+  // Inserting the session id with session into redis
   const key = sessionKey(sessionId);
+  const sessionData = sessionSchema.parse({
+    id: sessionId,
+    user: {
+      ...user,
+    },
+  });
   await redisClient.setEx(
     key,
     SESSION_EXPIRATION_SECONDS * 1000,
-    JSON.stringify(sessionSchema.parse(user))
+    JSON.stringify(sessionData)
   );
 
   // Adding the session id into the cookies
@@ -60,7 +72,7 @@ export const createUserSession = async (
   return null;
 };
 
-export const getUserFromSession = async (
+export const getUserSession = async (
   cookies: Pick<Cookies, "get">
 ): Promise<SessionType | null> => {
   // Getting the session id from cookie
@@ -70,13 +82,13 @@ export const getUserFromSession = async (
   if (!sessionId) return null;
 
   // Getting the data by using the session id from redis
-  const rawUser = await redisClient.get(sessionKey(sessionId));
+  const rawSessionData = await redisClient.get(sessionKey(sessionId));
 
-  // If the raw user data is null we will return null
-  if (!rawUser) return null;
+  // If the raw session data is null we will return null
+  if (!rawSessionData) return null;
 
-  // Parsing the user data using the actual safe schema
-  const { success, data } = sessionSchema.safeParse(JSON.parse(rawUser));
+  // Parsing the session data using the actual safe schema
+  const { success, data } = sessionSchema.safeParse(JSON.parse(rawSessionData));
 
   // Returning the parsed data if success else returning null
   return success ? data : null;

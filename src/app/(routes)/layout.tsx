@@ -1,38 +1,20 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@/styles/globals.css";
+import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
+import { getSession } from "@/lib/auth/getCurrentUser";
+import type { ReactNode } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Acora",
-};
-
-export default function RootLayout({
+const PublicLayout = async ({
   children,
   authModals,
-}: Readonly<{
-  children: React.ReactNode;
-  authModals: React.ReactNode;
-}>) {
+}: Readonly<{ children: ReactNode; authModals: ReactNode }>) => {
+  const session = await getSession();
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {authModals}
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <>
+      {authModals}
+      <Header user={session?.user ?? null} />
+      {children}
+      <Toaster />
+    </>
   );
-}
+};
+export default PublicLayout;

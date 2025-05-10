@@ -5,10 +5,10 @@ import {
   signUpSchema,
   type SignInInput,
   type SignUpInput,
-} from "../zod-schemas/auth";
+} from "../../zod-schemas/auth";
 import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
-import { usersTable } from "@/schemas/users";
+import { usersTable } from "@/drizzle/schemas/users";
 import { generateSalt, hashPassword } from "@/lib/auth/core/hash-password";
 import { createUserSession } from "@/lib/auth/core/session";
 import { cookies } from "next/headers";

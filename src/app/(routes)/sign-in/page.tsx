@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
 const SignInPage = () => {
   return (
@@ -21,12 +20,6 @@ const SignInPage = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <SignInForm afterSignIn="redirect" />
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link href="/sign-up" className="underline">
-                Sign up
-              </Link>
-            </div>
           </CardContent>
         </Card>
       </div>

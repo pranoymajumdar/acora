@@ -1,9 +1,12 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { env } from "@/lib/env";
-import { usersTable } from "@/schemas/users";
-import { categoriesTable, subCategoriesTable } from "@/schemas/categories";
-import { productsTable } from "@/schemas/products";
+import { usersTable } from "@/drizzle/schemas/users";
+import {
+  categoriesTable,
+  subCategoriesTable,
+} from "@/drizzle/schemas/categories";
+import { productsTable } from "@/drizzle/schemas/products";
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR

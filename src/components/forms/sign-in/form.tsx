@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { signInSchema, type SignInInput } from "@/app/zod-schemas/auth";
+import { signInSchema, type SignInInput } from "@/zod-schemas/auth";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useState, useTransition } from "react";
@@ -56,62 +55,70 @@ export const SignInForm = ({
     });
   }
   return (
-    <Form {...form}>
-      {error && <FormError error={error} />}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid gap-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="grid gap-2">
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <FormControl>
-                  <Input
-                    id="email"
-                    disabled={isPending}
-                    placeholder="johndoe@mail.com"
-                    type="email"
-                    autoComplete="email"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="grid gap-2">
-                <div className="flex justify-between items-center">
-                  <FormLabel htmlFor="password">Password</FormLabel>
-                  <Link
-                    href="#"
-                    className="ml-auto inline-block text-sm underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <FormControl>
-                  <PasswordInput
-                    id="password"
-                    disabled={isPending}
-                    placeholder="••••••••"
-                    autoComplete="current-password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button disabled={isPending} type="submit" className="w-full">
-            {isPending ? "Processing..." : "Submit"}
-          </Button>
-        </div>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        {error && <FormError error={error} />}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="grid gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="grid gap-2">
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="email"
+                      disabled={isPending}
+                      placeholder="johndoe@mail.com"
+                      type="email"
+                      autoComplete="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="grid gap-2">
+                  <div className="flex justify-between items-center">
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <Link
+                      href="#"
+                      className="ml-auto inline-block text-sm underline"
+                    >
+                      Forgot your password?
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <PasswordInput
+                      id="password"
+                      disabled={isPending}
+                      placeholder="••••••••"
+                      autoComplete="current-password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button disabled={isPending} type="submit" className="w-full">
+              {isPending ? "Processing..." : "Submit"}
+            </Button>
+          </div>
+        </form>
+      </Form>
+      <div className="mt-4 text-center text-sm">
+        Don&apos;t have an account?{" "}
+        <Link href="/sign-up" className="underline">
+          Sign up
+        </Link>
+      </div>
+    </>
   );
 };

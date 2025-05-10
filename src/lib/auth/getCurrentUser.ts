@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import { getUserFromSession } from "./core/session";
+import { getUserSession, type SessionType } from "./core/session";
 
-export const getCurrentUser = async () => {
-  return await getUserFromSession(await cookies());
+export const getSession = async (): Promise<SessionType | null> => {
+  return await getUserSession(await cookies());
 };

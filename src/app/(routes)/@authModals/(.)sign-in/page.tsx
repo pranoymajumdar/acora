@@ -7,7 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const SignInModal = () => {
@@ -23,12 +22,6 @@ const SignInModal = () => {
           </DialogDescription>
         </DialogHeader>
         <SignInForm afterSignIn="refresh" />
-        <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="underline">
-            Sign up
-          </Link>
-        </div>
       </DialogContent>
     </Dialog>
   );
