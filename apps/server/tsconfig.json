@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"verbatimModuleSyntax": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"baseUrl": "./",
+		"composite": true,
+		"paths": {
+			"@/*": ["./src/*"],
+			"@acora/zod-schemas": ["../../packages/zod-schemas/src"]
+		},
+		"outDir": "./dist",
+		"types": ["node"],
+		"jsx": "react-jsx",
+		"jsxImportSource": "hono/jsx"
+	},
+	"tsc-alias": {
+		"resolveFullPaths": true
+	},
+	"references": [{ "path": "../../packages/zod-schemas" }]
+}
