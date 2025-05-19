@@ -1,1 +1,2 @@
-export * from "./test.js";
+export * from "./category.js";
+export * from "./id.js";

@@ -1,0 +1,19 @@
+model Product {
+    id               String   @id @default(uuid())
+    name             String
+    slug             String
+    shortDescription String
+    description      String
+    price            Decimal  @db.Decimal(10, 2)
+    discountPrice    Decimal? @db.Decimal(10, 2)
+    stock            Int
+    sku              String   @unique
+    isFeatured       Boolean  @default(false)
+    isActive         Boolean  @default(true)
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+    categoryId       String
+    category         Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+    @@map("product")
+}

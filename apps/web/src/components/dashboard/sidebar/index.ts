@@ -1,1 +1,1 @@
-export { DashboardSidebar as default } from "./default";
+export { DashboardSidebar } from "./default";

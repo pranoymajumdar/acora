@@ -1,7 +1,7 @@
+import prisma from "@/lib/prisma";
+import { publicProcedure, router } from "@/lib/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import prisma from "../../prisma";
-import { publicProcedure, router } from "../lib/trpc";
 
 export const todoRouter = router({
 	getAll: publicProcedure.query(async () => {

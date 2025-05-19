@@ -29,6 +29,7 @@
 		"better-auth": "^1.2.7"
 	},
 	"devDependencies": {
+		"@acora/typescript-config": "workspace:*",
 		"tsc-alias": "^1.8.11",
 		"typescript": "^5.8.2",
 		"tsx": "^4.19.2",
