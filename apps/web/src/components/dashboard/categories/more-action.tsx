@@ -3,19 +3,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/utils/trpc";
+import type { Category } from "@server/prisma/generated/client";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { LucideDelete, LucideMoreVertical } from "lucide-react";
+import { LucideDelete, LucideEdit, LucideMoreVertical } from "lucide-react";
+import { UpdateCategoryDialog } from "./update-dialog";
 
 export const CategoryTableMoreAction = ({
-  categoryId,
+  category,
 }: {
-  categoryId: string;
+  category: Category;
 }) => {
   const deleteCategory = useMutation(trpc.category.delete.mutationOptions());
   const router = useRouter();
@@ -27,11 +28,17 @@ export const CategoryTableMoreAction = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+        <UpdateCategoryDialog category={category}>
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <LucideEdit />
+            Edit
+          </DropdownMenuItem>
+        </UpdateCategoryDialog>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           variant="destructive"
           onSelect={async () => {
-            await deleteCategory.mutateAsync({ id: categoryId });
+            await deleteCategory.mutateAsync({ id: category.id });
             router.invalidate();
           }}
         >

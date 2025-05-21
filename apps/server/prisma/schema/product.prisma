@@ -1,7 +1,7 @@
 model Product {
     id               String   @id @default(uuid())
     name             String
-    slug             String
+    slug             String   @unique
     shortDescription String
     description      String
     price            Decimal  @db.Decimal(10, 2)

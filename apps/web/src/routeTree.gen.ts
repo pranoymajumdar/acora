@@ -11,7 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TodosImport } from './routes/todos'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as AuthImport } from './routes/auth'
 import { Route as IndexImport } from './routes/index'
@@ -21,12 +20,6 @@ import { Route as DashboardProductsIndexImport } from './routes/dashboard/produc
 import { Route as DashboardProductsCreateImport } from './routes/dashboard/products/create'
 
 // Create/Update Routes
-
-const TodosRoute = TodosImport.update({
-  id: '/todos',
-  path: '/todos',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const DashboardRoute = DashboardImport.update({
   id: '/dashboard',
@@ -95,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
-    '/todos': {
-      id: '/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosImport
-      parentRoute: typeof rootRoute
-    }
     '/dashboard/categories': {
       id: '/dashboard/categories'
       path: '/categories'
@@ -157,7 +143,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRouteWithChildren
-  '/todos': typeof TodosRoute
   '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/products/create': typeof DashboardProductsCreateRoute
@@ -167,7 +152,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/todos': typeof TodosRoute
   '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/products/create': typeof DashboardProductsCreateRoute
@@ -179,7 +163,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRouteWithChildren
-  '/todos': typeof TodosRoute
   '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/products/create': typeof DashboardProductsCreateRoute
@@ -192,7 +175,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
-    | '/todos'
     | '/dashboard/categories'
     | '/dashboard/'
     | '/dashboard/products/create'
@@ -201,7 +183,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/todos'
     | '/dashboard/categories'
     | '/dashboard'
     | '/dashboard/products/create'
@@ -211,7 +192,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
-    | '/todos'
     | '/dashboard/categories'
     | '/dashboard/'
     | '/dashboard/products/create'
@@ -223,14 +203,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRouteWithChildren
-  TodosRoute: typeof TodosRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRouteWithChildren,
-  TodosRoute: TodosRoute,
 }
 
 export const routeTree = rootRoute
@@ -245,8 +223,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth",
-        "/dashboard",
-        "/todos"
+        "/dashboard"
       ]
     },
     "/": {
@@ -263,9 +240,6 @@ export const routeTree = rootRoute
         "/dashboard/products/create",
         "/dashboard/products/"
       ]
-    },
-    "/todos": {
-      "filePath": "todos.tsx"
     },
     "/dashboard/categories": {
       "filePath": "dashboard/categories.tsx",

@@ -1,4 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  CategoryTableMoreAction,
+  CreateCategoryDialog,
+} from "@/components/dashboard/categories";
+import { SharedHeader } from "@/components/dashboard/shared-header";
+import { Wrapper } from "@/components/shared/wrapper";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,15 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SharedHeader } from "@/components/dashboard/shared-header";
-import { Button } from "@/components/ui/button";
-import { LucideLayers } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc";
-import {
-  CategoryTableMoreAction,
-  CreateCategoryDialog,
-} from "@/components/dashboard/categories";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { LucideLayers } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/categories")({
   component: RouteComponent,
@@ -23,9 +24,9 @@ export const Route = createFileRoute("/dashboard/categories")({
 
 function RouteComponent() {
   const { data: categories } = useQuery(trpc.category.getAll.queryOptions());
-  console.log(categories);
+
   return (
-    <main className="container mx-auto my-6 space-y-6 px-8">
+    <Wrapper>
       <SharedHeader
         title="Categories"
         description="Manage categories to organise your products."
@@ -51,19 +52,19 @@ function RouteComponent() {
           <TableBody>
             {categories && categories.length > 0 ? (
               categories?.map((category) => (
-                <TableRow key={category.name}>
+                <TableRow key={category.id}>
                   <TableCell className="py-2 font-medium">
-                    {category.slug}
+                    {category.name}
                   </TableCell>
                   <TableCell className="py-2">{category.slug}</TableCell>
                   <TableCell className="py-2">
                     {category.products.length}
                   </TableCell>
                   <TableCell className="py-2">
-                    {new Date(category.createdAt).toDateString()}
+                    {category.createdAt.toDateString()}
                   </TableCell>
                   <TableCell className="py-2">
-                    <CategoryTableMoreAction categoryId={category.id} />
+                    <CategoryTableMoreAction category={category} />
                   </TableCell>
                 </TableRow>
               ))
@@ -77,6 +78,6 @@ function RouteComponent() {
           </TableBody>
         </Table>
       </div>
-    </main>
+    </Wrapper>
   );
 }

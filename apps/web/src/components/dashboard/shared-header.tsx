@@ -7,7 +7,7 @@ export const SharedHeader = ({
 }: {
   title: string;
   description: string;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   return (
     <section className="flex items-center justify-between">

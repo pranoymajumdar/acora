@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Link } from "@tanstack/react-router";
 import { useLocation } from "@tanstack/react-router";
 import { Fragment } from "react";
 
@@ -34,7 +35,9 @@ export const SiteHeader = () => {
                     {isLastSegment ? (
                       <BreadcrumbPage>{segment}</BreadcrumbPage>
                     ) : (
-                      <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
+                      <BreadcrumbLink asChild>
+                        <Link to={href}>{segment}</Link>
+                      </BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
                   {!isLastSegment && <BreadcrumbSeparator />}

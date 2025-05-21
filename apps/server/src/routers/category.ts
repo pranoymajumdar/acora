@@ -45,9 +45,9 @@ export const categoryRouter = router({
           OR: [{ id: input.id }, { slug: input.slug }],
         },
       });
-      const categoryToEdit = category.filter((cat) => cat.id === input.id);
-      const duplicateSlug = category.filter(
-        (cat) => cat.id !== input.id && cat.slug === input.slug
+      const categoryToEdit = category.find((cat) => cat.id === input.id);
+      const duplicateSlug = category.find(
+        (cat) => cat.id !== input.id && cat.slug === input.slug,
       );
       if (!categoryToEdit) {
         throw new TRPCError({

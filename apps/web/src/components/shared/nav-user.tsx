@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
-import { authClient, type User } from "@/lib/auth-client";
+import { type User, authClient } from "@/lib/auth-client";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 

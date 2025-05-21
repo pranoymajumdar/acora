@@ -1,12 +1,12 @@
 import "dotenv/config";
 import { serve } from "@hono/node-server";
-import { env } from "./lib/env";
 import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { auth } from "./lib/auth";
 import { createContext } from "./lib/context";
+import { env } from "./lib/env";
 import { appRouter } from "./routers/index";
 
 const app = new Hono();
@@ -18,7 +18,7 @@ app.use(
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  })
+  }),
 );
 
 app.on(["POST", "GET"], "/api/auth/**", (c) => auth.handler(c.req.raw));
@@ -30,7 +30,7 @@ app.use(
     createContext: (_opts, context) => {
       return createContext({ context });
     },
-  })
+  }),
 );
 
 app.get("/", (c) => {
@@ -44,5 +44,5 @@ serve(
   },
   (info) => {
     console.log(`Server is running on http://localhost:${info.port}`);
-  }
+  },
 );

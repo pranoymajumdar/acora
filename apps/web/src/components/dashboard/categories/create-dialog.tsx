@@ -25,7 +25,7 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
         setOpen(false);
         router.invalidate();
       },
-    })
+    }),
   );
   const form = useForm({
     defaultValues: {
@@ -38,15 +38,34 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
     onSubmit: async ({ value }) => {
       await createCategory.mutateAsync(value);
     },
+    listeners: {
+      onChange: ({ fieldApi }) => {
+        if (fieldApi.name === "name") {
+          generateSlug();
+        }
+      },
+    },
   });
-
+  const generateSlug = () => {
+    if (form.state.values.name !== "") {
+      form.setFieldValue(
+        "slug",
+        form.state.values.name
+          .toLowerCase()
+          .replaceAll(" ", "-")
+          .replaceAll("&", "-")
+          .replaceAll("_", "-")
+          .replaceAll("%", "-"),
+      );
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="font-semibold text-xl">
-            Create New Product
+            Create New Category
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
             Fill in the details below to add a new category.
@@ -70,7 +89,7 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
                 <Input
                   id={field.name}
                   name={field.name}
-                  placeholder="Premium Widget Pro"
+                  placeholder="Enter category name"
                   className="w-full"
                   value={field.state.value}
                   onBlur={field.handleBlur}
@@ -82,9 +101,19 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
           <form.Field name="slug">
             {(field) => (
               <div className="grid gap-2">
-                <Label htmlFor={field.name} className="font-medium">
-                  Category Slug
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor={field.name} className="font-medium">
+                    Category Slug
+                  </Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={generateSlug}
+                  >
+                    Generate
+                  </Button>
+                </div>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -107,7 +136,7 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
                 className="ml-auto w-full md:w-fit"
                 disabled={!state.canSubmit || state.isSubmitting}
               >
-                {state.isSubmitting ? "Creating" : "Create"}
+                {state.isSubmitting ? "Creating..." : "Create"}
               </Button>
             )}
           </form.Subscribe>

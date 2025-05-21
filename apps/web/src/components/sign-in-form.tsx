@@ -17,13 +17,13 @@ import {
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
-export default function SignInForm({
+export const SignInForm = ({
   onSwitchToSignUp,
   redirectTo,
 }: {
   onSwitchToSignUp: () => void;
   redirectTo: string;
-}) {
+}) => {
   const navigate = useNavigate({
     from: "/",
   });
@@ -50,7 +50,7 @@ export default function SignInForm({
           onError: (error) => {
             toast.error(error.error.message);
           },
-        }
+        },
       );
     },
     validators: {
@@ -196,4 +196,4 @@ export default function SignInForm({
       </Card>
     </div>
   );
-}
+};

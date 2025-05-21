@@ -1,17 +1,17 @@
 {
-	"extends": "@acora/typescript-config/base.json",
-	"compilerOptions": {
-		"composite": true,
-		"outDir": "./dist",
-		"types": ["node"],
-		"jsx": "react-jsx",
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		}
-	},
-	"tsc-alias": {
-		"resolveFullPaths": true
-	},
-	"exclude": ["node_modules", "dist", "**/*.d.ts", "prisma.config.d.ts"]
+  "extends": "@acora/typescript-config/base.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "types": ["node"],
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
+  },
+  "exclude": ["node_modules", "dist", "**/*.d.ts", "prisma.config.d.ts"]
 }

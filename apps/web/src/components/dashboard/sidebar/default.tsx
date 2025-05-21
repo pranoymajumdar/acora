@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import type { User } from "@/lib/auth-client";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import {
   LucideLayers,
@@ -16,7 +17,6 @@ import {
   LucidePackage,
 } from "lucide-react";
 import { NavMain } from "./nav-main";
-import type { User } from "@/lib/auth-client";
 
 const navLinks = [
   {
