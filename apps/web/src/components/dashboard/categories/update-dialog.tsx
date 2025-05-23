@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { generateSlug } from "@/utils/generate-slug";
 import { trpc } from "@/utils/trpc";
 import { UpdateCategorySchema } from "@acora/zod-schemas";
 import type { Category } from "@server/prisma/generated/client";
@@ -47,6 +48,16 @@ export const UpdateCategoryDialog = ({
     },
     validators: {
       onChange: UpdateCategorySchema,
+    },
+    listeners: {
+      onChange: ({ fieldApi }) => {
+        if (fieldApi.name === "name") {
+          fieldApi.form.setFieldValue(
+            "slug",
+            generateSlug(fieldApi.state.value),
+          );
+        }
+      },
     },
     onSubmit: async ({ value }) => {
       await editCategory.mutateAsync(value);

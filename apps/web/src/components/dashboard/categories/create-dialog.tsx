@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { generateSlug } from "@/utils/generate-slug";
 import { trpc } from "@/utils/trpc";
 import { CategorySchema } from "@acora/zod-schemas";
 import { useForm } from "@tanstack/react-form";
@@ -41,24 +42,15 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
     listeners: {
       onChange: ({ fieldApi }) => {
         if (fieldApi.name === "name") {
-          generateSlug();
+          fieldApi.form.setFieldValue(
+            "slug",
+            generateSlug(fieldApi.state.value),
+          );
         }
       },
     },
   });
-  const generateSlug = () => {
-    if (form.state.values.name !== "") {
-      form.setFieldValue(
-        "slug",
-        form.state.values.name
-          .toLowerCase()
-          .replaceAll(" ", "-")
-          .replaceAll("&", "-")
-          .replaceAll("_", "-")
-          .replaceAll("%", "-"),
-      );
-    }
-  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -101,23 +93,13 @@ export const CreateCategoryDialog = ({ children }: { children: ReactNode }) => {
           <form.Field name="slug">
             {(field) => (
               <div className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor={field.name} className="font-medium">
-                    Category Slug
-                  </Label>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={generateSlug}
-                  >
-                    Generate
-                  </Button>
-                </div>
+                <Label htmlFor={field.name} className="font-medium">
+                  Category Slug
+                </Label>
                 <Input
                   id={field.name}
                   name={field.name}
-                  placeholder="premium-widget-pro"
+                  placeholder="Enter category slug"
                   className="w-full"
                   value={field.state.value}
                   onBlur={field.handleBlur}

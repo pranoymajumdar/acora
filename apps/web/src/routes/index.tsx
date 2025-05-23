@@ -1,6 +1,5 @@
 import { MainLayout } from "@/layouts/default";
-import { trpc } from "@/utils/trpc";
-import { useQuery } from "@tanstack/react-query";
+import { UploadButton } from "@/utils/uploadthing";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -12,11 +11,20 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  const healthCheck = useQuery(trpc.healthCheck.queryOptions());
-
   return (
-    <main>
-      <h1>Status: {healthCheck.data}</h1>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <UploadButton
+        endpoint="videoAndImage"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
     </main>
   );
 }

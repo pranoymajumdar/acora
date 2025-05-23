@@ -70,7 +70,7 @@ function RouteComponent() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
+                <TableCell colSpan={5} className="h-24 text-center">
                   No Result
                 </TableCell>
               </TableRow>

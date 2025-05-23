@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\Users\\Pranoy\\Desktop\\acora\\apps\\server\\prisma\\generated",
+      "value": "/home/pranoy/Code/acora/apps/server/prisma/generated",
       "fromEnvVar": null
     },
     "config": {
@@ -32,12 +32,12 @@ const config: runtime.GetPrismaClientConfig = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "rhel-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Pranoy\\Desktop\\acora\\apps\\server\\prisma\\schema\\schema.prisma",
+    "sourceFilePath": "/home/pranoy/Code/acora/apps/server/prisma/schema/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../schema",

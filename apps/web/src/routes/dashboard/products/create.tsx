@@ -112,7 +112,7 @@ function RouteComponent() {
             state.isFormValid,
           ]}
           children={([canSubmit, isSubmitting, isFormValid]) => (
-            <Button disabled={!canSubmit || !isFormValid}>
+            <Button variant="outline" disabled={!canSubmit || !isFormValid}>
               <LucidePackage />
               {isSubmitting ? "Creating..." : "Create"}
             </Button>

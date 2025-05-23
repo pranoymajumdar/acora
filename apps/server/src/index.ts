@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { serve } from "@hono/node-server";
 import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
@@ -8,15 +7,26 @@ import { auth } from "./lib/auth";
 import { createContext } from "./lib/context";
 import { env } from "./lib/env";
 import { appRouter } from "./routers/index";
+import { createRouteHandler } from "uploadthing/server";
+import { uploadRouter } from "./lib/uploadthing/router";
 
 const app = new Hono();
+const uploadthingRouteHandler = createRouteHandler({
+  router: uploadRouter,
+});
+
 app.use(logger());
 app.use(
   "/*",
   cors({
     origin: env.CORS_ORIGIN,
     allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
+    allowHeaders: [
+      "Content-Type",
+      "Authorization",
+      "x-uploadthing-package",
+      "x-uploadthing-version",
+    ],
     credentials: true,
   }),
 );
@@ -32,6 +42,8 @@ app.use(
     },
   }),
 );
+
+app.all("/api/uploadthing", (c) => uploadthingRouteHandler(c.req.raw));
 
 app.get("/", (c) => {
   return c.text("OK");
