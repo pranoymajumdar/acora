@@ -11,5 +11,6 @@ export const ProductSchema = z.object({
   sku: z.string().min(3).max(50),
   isFeatured: z.boolean().default(false),
   isActive: z.boolean().default(true),
+  imagesUrl: z.string().array(),
   categoryId: z.string().min(1, "Choose a category"),
 });

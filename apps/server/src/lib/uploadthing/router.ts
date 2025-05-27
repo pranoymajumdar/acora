@@ -28,16 +28,12 @@ const f = createUploadthing({
  * @see https://docs.uploadthing.com/api-reference/server#file-routes
  */
 export const uploadRouter = {
-  videoAndImage: f(
+  image: f(
     {
       image: {
         maxFileSize: "4MB",
-        maxFileCount: 4,
+        maxFileCount: 6,
       },
-      video: {
-        maxFileSize: "16MB",
-      },
-      blob: { maxFileSize: "8GB", maxFileCount: 10 },
     },
     {
       awaitServerData: true,

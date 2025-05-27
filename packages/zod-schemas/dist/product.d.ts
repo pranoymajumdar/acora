@@ -10,6 +10,7 @@ export declare const ProductSchema: z.ZodObject<{
     sku: z.ZodString;
     isFeatured: z.ZodDefault<z.ZodBoolean>;
     isActive: z.ZodDefault<z.ZodBoolean>;
+    imagesUrl: z.ZodArray<z.ZodString, "many">;
     categoryId: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     name: string;
@@ -22,6 +23,7 @@ export declare const ProductSchema: z.ZodObject<{
     sku: string;
     isFeatured: boolean;
     isActive: boolean;
+    imagesUrl: string[];
     categoryId: string;
 }, {
     name: string;
@@ -32,6 +34,7 @@ export declare const ProductSchema: z.ZodObject<{
     discountPrice: number;
     stock: number;
     sku: string;
+    imagesUrl: string[];
     categoryId: string;
     isFeatured?: boolean | undefined;
     isActive?: boolean | undefined;

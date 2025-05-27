@@ -23,7 +23,7 @@ export const SiteHeader = () => {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <Breadcrumb>
+        <Breadcrumb className="hidden md:inline-block">
           <BreadcrumbList>
             {pathSegments.map((segment, index) => {
               const href = `/${pathSegments.slice(0, index + 1).join("/")}`;

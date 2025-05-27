@@ -20,6 +20,7 @@ export const productsRouter = router({
           input.discountPrice > 0 ? input.discountPrice : undefined,
         isActive: input.isActive,
         isFeatured: input.isFeatured,
+        imagesUrl: input.imagesUrl,
       },
     });
   }),

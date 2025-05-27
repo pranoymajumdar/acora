@@ -1,5 +1,6 @@
 import { ProductFormCategoryCard } from "@/components/dashboard/products/form-card";
 import { SharedHeader } from "@/components/dashboard/shared-header";
+import { FileDropzone } from "@/components/shared/file-dropzone";
 import { FormErrorField } from "@/components/shared/form";
 import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "@/components/ui/button";
@@ -17,11 +18,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { generateSKU } from "@/utils/generate-sku";
 import { generateSlug } from "@/utils/generate-slug";
 import { trpc } from "@/utils/trpc";
+import { UploadDropzone } from "@/utils/uploadthing";
 import { ProductSchema } from "@acora/zod-schemas";
 import { formOptions, useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { LucideDollarSign, LucidePackage } from "lucide-react";
+import { toast } from "sonner";
 
 const productFormOptions = formOptions({
   defaultValues: {
@@ -35,6 +38,7 @@ const productFormOptions = formOptions({
     categoryId: "",
     isActive: true,
     isFeatured: false,
+    imagesUrl: [""],
     discountPrice: 0,
   },
 });
@@ -44,9 +48,9 @@ export const Route = createFileRoute("/dashboard/products/create")({
 });
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
   const { data: categories } = useQuery(trpc.category.getAll.queryOptions());
   const createProduct = useMutation(trpc.products.create.mutationOptions());
-  const navigate = Route.useNavigate();
 
   const form = useForm({
     ...productFormOptions,
@@ -91,6 +95,7 @@ function RouteComponent() {
       },
     },
   });
+
   return (
     <Wrapper<"form">
       as="form"
@@ -296,7 +301,6 @@ function RouteComponent() {
             )}
           />
         </ProductFormCategoryCard>
-
         <ProductFormCategoryCard
           title="Category & Status"
           description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae, doloremque."
@@ -373,6 +377,32 @@ function RouteComponent() {
                   </p>
                 </div>
               </div>
+            )}
+          />
+        </ProductFormCategoryCard>
+        <ProductFormCategoryCard
+          title="Product Images"
+          description="Upload and manage product photos. Add multiple images to showcase your product from different angles."
+        >
+          <form.Field
+            name="imagesUrl"
+            children={(field) => (
+              // <UploadDropzone
+              //   endpoint="image"
+              //   onClientUploadComplete={(res) => {
+              //     field.removeValue(0);
+              //     for (const image of res) {
+              //       field.pushValue(image.ufsUrl);
+              //     }
+              //   }}
+              //   onUploadError={(error: Error) => {
+              //     toast.error(error.message);
+              //   }}
+              //   onUploadBegin={(name) => {
+              //     toast.info(`Uploading: ${name}`);
+              //   }}
+              // />
+              <FileDropzone />
             )}
           />
         </ProductFormCategoryCard>
