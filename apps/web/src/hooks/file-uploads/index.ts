@@ -3,28 +3,14 @@ import type { FileAction, FileState, FileUploadsConfigs } from "./types";
 import { useFileValidation } from "./use-file-validation";
 
 const fileUploadReducer = (state: FileState, action: FileAction): FileState => {
-  switch (action.type) {
-    case "ADD_FILES":
-      return {
-        files: action.payload,
-        errors: state.errors,
-      };
-    case "REMOVE_FILE":
-      return {
-        files: state.files,
-        errors: state.errors,
-      };
-    case "SET_ERROR":
-      return {
-        files: state.files,
-        errors: state.errors,
-      };
-    case "CLEAR_ERRORS":
-      return {
-        files: state.files,
-        errors: state.errors,
-      };
-  }
+  const actions: Record<FileAction["type"], () => FileState> = {
+    ADD_FILES: () => state,
+    REMOVE_FILE: () => state,
+    CLEAR_ERRORS: () => state,
+    SET_ERROR: () => state,
+  };
+
+  return actions[action.type]();
 };
 
 export const useFileUploads = ({ config }: { config: FileUploadsConfigs }) => {
