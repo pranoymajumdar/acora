@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useFileUploads } from "@/hooks/file-uploads";
 import { LucideImage, LucidePlus, LucideUpload, LucideX } from "lucide-react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
-export const ProductImageUploads = () => {
+type ProductImageUploadsProps = {
+  onChange: (urls: string[]) => void;
+};
+export const ProductImageUploads = ({ onChange }: ProductImageUploadsProps) => {
   const {
     files,
     openFileDialog,
@@ -19,6 +23,11 @@ export const ProductImageUploads = () => {
       toast.error(error);
     },
   });
+
+  useEffect(() => {
+    const imageUrls = files.map((file) => file.preview);
+    onChange(imageUrls);
+  }, [onChange, files]);
 
   return (
     <div className="rounded-md border border-dashed">
@@ -68,11 +77,11 @@ export const ProductImageUploads = () => {
             {files.map((file) => (
               <div
                 className="relative aspect-square rounded-md bg-accent"
-                key={file.name}
+                key={file.source.name}
               >
                 <img
                   src={file.preview}
-                  alt={file.name}
+                  alt={file.source.name}
                   className="size-full rounded-[inherit] object-cover"
                 />
                 <Button

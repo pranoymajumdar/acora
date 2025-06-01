@@ -6,12 +6,12 @@ import {
   useRef,
   useState,
 } from "react";
-import type { File, FileUploadsConfigs } from "./types";
+import type { FileObject, FileUploadsConfigs } from "./types";
 import { useFileValidation } from "./use-file-validation";
 
 export const useFileUploads = (config: FileUploadsConfigs) => {
   // File state management
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<FileObject[]>([]);
 
   // Reference to hidden file input element
   const fileInputRef = useRef<HTMLInputElement>(null);

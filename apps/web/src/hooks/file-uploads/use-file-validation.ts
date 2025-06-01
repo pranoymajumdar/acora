@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import type {
-  File,
+  FileObject,
   FileValidationOptions,
   FileValidationResult,
 } from "./types";
@@ -14,12 +14,10 @@ export const useFileValidation = ({
   const validateAll = useCallback(
     (fileList: FileList): FileValidationResult => {
       // Convert FileList to our File type with preview URLs
-      const files: File[] = Array.from(fileList).map((file) => ({
+      const files: FileObject[] = Array.from(fileList).map((file) => ({
         id: crypto.randomUUID().toString().normalize(),
-        name: file.name,
         preview: URL.createObjectURL(file),
-        size: file.size,
-        type: file.type,
+        source: file,
       }));
 
       // Validation 1: Check file count limit
@@ -39,9 +37,9 @@ export const useFileValidation = ({
         // Check for duplicates based on name, size, and type
         const isDuplicate = stateFiles.some(
           (stateFile) =>
-            stateFile.name === file.name &&
-            stateFile.size === file.size &&
-            stateFile.type === file.type,
+            stateFile.source.name === file.source.name &&
+            stateFile.source.size === file.source.size &&
+            stateFile.source.type === file.source.type,
         );
 
         if (isDuplicate) {
@@ -51,19 +49,19 @@ export const useFileValidation = ({
           }
           return {
             success: false,
-            error: `${file.name} is already exists.`,
+            error: `${file.source.name} is already exists.`,
           };
         }
 
         // Check file size limit
-        if (file.size > maxSize) {
+        if (file.source.size > maxSize) {
           // Clean up object URLs on failure
           for (const file of files) {
             URL.revokeObjectURL(file.preview);
           }
           return {
             success: false,
-            error: `${file.name} is too large`,
+            error: `${file.source.name} is too large`,
           };
         }
 
@@ -73,13 +71,13 @@ export const useFileValidation = ({
             // Handle MIME types (e.g., "image/*", "image/jpeg")
             if (type.includes("/")) {
               return (
-                file.type === type ||
-                file.type.startsWith(type.replace("*", ""))
+                file.source.type === type ||
+                file.source.type.startsWith(type.replace("*", ""))
               );
             }
 
             // Handle file extensions (e.g., ".pdf", ".jpg")
-            return file.name.toLowerCase().endsWith(type.toLowerCase());
+            return file.source.name.toLowerCase().endsWith(type.toLowerCase());
           });
 
           if (!isValidType) {
@@ -89,7 +87,7 @@ export const useFileValidation = ({
             }
             return {
               success: false,
-              error: `${file.name} has invalid type`,
+              error: `${file.source.name} has invalid type`,
             };
           }
         }

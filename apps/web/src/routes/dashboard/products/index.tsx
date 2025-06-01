@@ -1,7 +1,7 @@
 import { ProductsTableMoreAction } from "@/components/dashboard/products/more-action";
 import { SharedHeader } from "@/components/dashboard/shared-header";
 import { Wrapper } from "@/components/shared/wrapper";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,

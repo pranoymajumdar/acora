@@ -1,19 +1,8 @@
-export type File = {
+export type FileObject = {
   id: string;
-  name: string;
-  type: string;
-  size: number;
   preview: string;
+  source: File;
 };
-
-export type FileAction =
-  | {
-      type: "ADD_FILES";
-      payload: File[];
-    }
-  | { type: "REMOVE_FILE"; id: File["id"] }
-  | { type: "SET_ERROR"; error: string }
-  | { type: "CLEAR_ERRORS" };
 
 export type FileUploadsConfigs = {
   multiple: boolean;
@@ -23,7 +12,7 @@ export type FileUploadsConfigs = {
   allowedTypes: string[];
 };
 
-export type FileValidationOptions = { files: File[] } & Omit<
+export type FileValidationOptions = { files: FileObject[] } & Omit<
   FileUploadsConfigs,
   "onError" | "multiple"
 >;
@@ -31,6 +20,6 @@ export type FileValidationOptions = { files: File[] } & Omit<
 export type FileValidationResult =
   | {
       success: true;
-      validFiles: File[];
+      validFiles: FileObject[];
     }
   | { success: false; error: string };

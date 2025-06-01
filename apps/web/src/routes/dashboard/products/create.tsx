@@ -23,6 +23,7 @@ import { formOptions, useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { LucideDollarSign, LucidePackage } from "lucide-react";
+import { useCallback } from "react";
 
 const productFormOptions = formOptions({
   defaultValues: {
@@ -93,6 +94,12 @@ function RouteComponent() {
       },
     },
   });
+  const handleImageChanges = useCallback(
+    (urls: string[]) => {
+      form.setFieldValue("imagesUrl", urls);
+    },
+    [form.setFieldValue],
+  );
 
   return (
     <Wrapper<"form">
@@ -384,23 +391,8 @@ function RouteComponent() {
         >
           <form.Field
             name="imagesUrl"
-            children={(field) => (
-              // <UploadDropzone
-              //   endpoint="image"
-              //   onClientUploadComplete={(res) => {
-              //     field.removeValue(0);
-              //     for (const image of res) {
-              //       field.pushValue(image.ufsUrl);
-              //     }
-              //   }}
-              //   onUploadError={(error: Error) => {
-              //     toast.error(error.message);
-              //   }}
-              //   onUploadBegin={(name) => {
-              //     toast.info(`Uploading: ${name}`);
-              //   }}
-              // />
-              <ProductImageUploads />
+            children={() => (
+              <ProductImageUploads onChange={handleImageChanges} />
             )}
           />
         </ProductFormCategoryCard>
