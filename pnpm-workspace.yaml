@@ -7,4 +7,5 @@ onlyBuiltDependencies:
   - '@prisma/engines'
   - '@tailwindcss/oxide'
   - esbuild
+  - msgpackr-extract
   - prisma

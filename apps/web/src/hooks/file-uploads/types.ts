@@ -15,25 +15,22 @@ export type FileAction =
   | { type: "SET_ERROR"; error: string }
   | { type: "CLEAR_ERRORS" };
 
-export type FileState = {
-  files: File[];
-  errors: string[];
-};
-
 export type FileUploadsConfigs = {
   multiple: boolean;
   maxFiles: number;
   maxSize: number;
-  onError: (error: string) => void;
+  onError?: (error: string) => void;
   allowedTypes: string[];
 };
 
-export type FileValidationOptions = Omit<
+export type FileValidationOptions = { files: File[] } & Omit<
   FileUploadsConfigs,
   "onError" | "multiple"
 >;
 
-export type FileValidationResult = {
-  validFiles: File[];
-  errors: string[];
-};
+export type FileValidationResult =
+  | {
+      success: true;
+      validFiles: File[];
+    }
+  | { success: false; error: string };

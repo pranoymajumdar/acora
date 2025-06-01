@@ -9,10 +9,11 @@ export const useFileValidation = ({
   maxSize,
   maxFiles,
   allowedTypes,
+  files: stateFiles,
 }: FileValidationOptions) => {
   const validateAll = useCallback(
     (fileList: FileList): FileValidationResult => {
-      const errors: string[] = [];
+      // Convert FileList to our File type with preview URLs
       const files: File[] = Array.from(fileList).map((file) => ({
         id: crypto.randomUUID().toString().normalize(),
         name: file.name,
@@ -21,47 +22,86 @@ export const useFileValidation = ({
         type: file.type,
       }));
 
+      // Validation 1: Check file count limit
       if (files.length > maxFiles) {
+        // Clean up object URLs on failure
+        for (const file of files) {
+          URL.revokeObjectURL(file.preview);
+        }
         return {
-          errors: [`Too many files. Maximum: ${maxFiles}`],
-          validFiles: [],
+          success: false,
+          error: `Too many files. Maximum: ${maxFiles}`,
         };
       }
 
-      const validFiles = files.filter((file) => {
-        // Check size
-        if (file.size > maxSize) {
-          errors.push(`${file.name} is too large`);
-          return false;
+      // Validation 2-4: Check each file individually
+      for (const file of files) {
+        // Check for duplicates based on name, size, and type
+        const isDuplicate = stateFiles.some(
+          (stateFile) =>
+            stateFile.name === file.name &&
+            stateFile.size === file.size &&
+            stateFile.type === file.type,
+        );
+
+        if (isDuplicate) {
+          // Clean up object URLs on failure
+          for (const file of files) {
+            URL.revokeObjectURL(file.preview);
+          }
+          return {
+            success: false,
+            error: `${file.name} is already exists.`,
+          };
         }
 
-        // Check type (if not wildcard)
+        // Check file size limit
+        if (file.size > maxSize) {
+          // Clean up object URLs on failure
+          for (const file of files) {
+            URL.revokeObjectURL(file.preview);
+          }
+          return {
+            success: false,
+            error: `${file.name} is too large`,
+          };
+        }
+
+        // Check file type (skip if wildcard "*" is allowed)
         if (!allowedTypes.includes("*")) {
           const isValidType = allowedTypes.some((type) => {
+            // Handle MIME types (e.g., "image/*", "image/jpeg")
             if (type.includes("/")) {
               return (
                 file.type === type ||
                 file.type.startsWith(type.replace("*", ""))
               );
             }
+
+            // Handle file extensions (e.g., ".pdf", ".jpg")
             return file.name.toLowerCase().endsWith(type.toLowerCase());
           });
 
           if (!isValidType) {
-            errors.push(`${file.name} has invalid type`);
-            return false;
+            // Clean up object URLs on failure
+            for (const file of files) {
+              URL.revokeObjectURL(file.preview);
+            }
+            return {
+              success: false,
+              error: `${file.name} has invalid type`,
+            };
           }
-
-          return true;
         }
-      });
+      }
 
+      // All validations passed
       return {
-        errors,
-        validFiles,
+        success: true,
+        validFiles: files,
       };
     },
-    [maxFiles, maxSize, allowedTypes],
+    [maxFiles, maxSize, allowedTypes, stateFiles],
   );
 
   return { validateAll };

@@ -1,6 +1,6 @@
 import { ProductFormCategoryCard } from "@/components/dashboard/products/form-card";
+import { ProductImageUploads } from "@/components/dashboard/products/product-image-uploads";
 import { SharedHeader } from "@/components/dashboard/shared-header";
-import { FileDropzone } from "@/components/shared/file-dropzone";
 import { FormErrorField } from "@/components/shared/form";
 import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "@/components/ui/button";
@@ -18,13 +18,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { generateSKU } from "@/utils/generate-sku";
 import { generateSlug } from "@/utils/generate-slug";
 import { trpc } from "@/utils/trpc";
-import { UploadDropzone } from "@/utils/uploadthing";
 import { ProductSchema } from "@acora/zod-schemas";
 import { formOptions, useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { LucideDollarSign, LucidePackage } from "lucide-react";
-import { toast } from "sonner";
 
 const productFormOptions = formOptions({
   defaultValues: {
@@ -402,7 +400,7 @@ function RouteComponent() {
               //     toast.info(`Uploading: ${name}`);
               //   }}
               // />
-              <FileDropzone />
+              <ProductImageUploads />
             )}
           />
         </ProductFormCategoryCard>
