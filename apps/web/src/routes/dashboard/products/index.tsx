@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { trpc } from "@/utils/trpc";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { LucidePackagePlus } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/products/")({

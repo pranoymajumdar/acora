@@ -1,12 +1,12 @@
+import { LucideImage, LucidePlus, LucideUpload, LucideX } from "lucide-react";
 import {
+  type ChangeEvent,
+  type DragEvent,
   useCallback,
   useRef,
   useState,
-  type ChangeEvent,
-  type DragEvent,
 } from "react";
 import { Button } from "../ui/button";
-import { LucideImage, LucidePlus, LucideUpload, LucideX } from "lucide-react";
 
 type File = {
   id: string;

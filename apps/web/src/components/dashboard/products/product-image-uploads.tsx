@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useFileUploads } from "@/hooks/file-uploads";
 import { LucideImage, LucidePlus, LucideUpload, LucideX } from "lucide-react";
-import { useCallback, type ChangeEvent, type DragEvent } from "react";
 import { toast } from "sonner";
 
 export const ProductImageUploads = () => {
   const {
     files,
-    handleFileDrop,
     openFileDialog,
+    getRootDivProps,
     getFileInputProps,
     removeFile,
   } = useFileUploads({
@@ -21,26 +20,15 @@ export const ProductImageUploads = () => {
     },
   });
 
-  const preventDefault = useCallback(
-    (e: DragEvent<HTMLDivElement> | ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-    },
-    [],
-  );
   return (
     <div className="rounded-md border border-dashed">
       <input {...getFileInputProps} />
       {files.length === 0 ? (
         <div
-          className="flex flex-col items-center justify-center px-4 py-3 text-center"
-          onDrag={preventDefault}
-          onDragEnter={preventDefault}
-          onDragEnd={preventDefault}
-          onDragLeave={preventDefault}
-          onDragOver={preventDefault}
-          onDragCapture={preventDefault}
-          onDrop={handleFileDrop}
+          {...getRootDivProps({
+            className:
+              "flex flex-col items-center justify-center px-4 py-3 text-center",
+          })}
         >
           <div
             className="mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border bg-background"

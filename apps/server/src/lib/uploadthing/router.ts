@@ -8,7 +8,7 @@
  * In your app, import using the correct entrypoint for your adapter.
  * @see https://docs.uploadthing.com/api-reference/server#createuploadthing
  */
-import { createUploadthing, type FileRouter } from "uploadthing/server";
+import { type FileRouter, createUploadthing } from "uploadthing/server";
 
 const f = createUploadthing({
   /**

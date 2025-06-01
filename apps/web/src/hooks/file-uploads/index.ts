@@ -1,12 +1,12 @@
 import {
-  useCallback,
-  useRef,
-  useState,
   type ChangeEvent,
   type ComponentProps,
   type DragEvent,
+  useCallback,
+  useRef,
+  useState,
 } from "react";
-import type { FileUploadsConfigs, File } from "./types";
+import type { File, FileUploadsConfigs } from "./types";
 import { useFileValidation } from "./use-file-validation";
 
 export const useFileUploads = (config: FileUploadsConfigs) => {
@@ -91,9 +91,19 @@ export const useFileUploads = (config: FileUploadsConfigs) => {
     });
   }, []);
 
+  /**
+   * Prevents default behavior and stops event propagation
+   */
+  const preventDefault = useCallback(
+    (e: DragEvent<HTMLDivElement> | ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    [],
+  );
+
   return {
     files,
-    handleFileDrop,
     openFileDialog,
     removeFile,
     get getFileInputProps(): ComponentProps<"input"> {
@@ -104,6 +114,20 @@ export const useFileUploads = (config: FileUploadsConfigs) => {
         className: "hidden",
         ref: fileInputRef,
         accept: config.allowedTypes.join(","),
+      };
+    },
+    getRootDivProps({
+      className,
+    }: { className: string }): ComponentProps<"div"> {
+      return {
+        onDrag: preventDefault,
+        onDragEnter: preventDefault,
+        onDragEnd: preventDefault,
+        onDragLeave: preventDefault,
+        onDragOver: preventDefault,
+        onDragCapture: preventDefault,
+        onDrop: handleFileDrop,
+        className,
       };
     },
   };

@@ -3,12 +3,12 @@ import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { createRouteHandler } from "uploadthing/server";
 import { auth } from "./lib/auth";
 import { createContext } from "./lib/context";
 import { env } from "./lib/env";
-import { appRouter } from "./routers/index";
-import { createRouteHandler } from "uploadthing/server";
 import { uploadRouter } from "./lib/uploadthing/router";
+import { appRouter } from "./routers/index";
 
 const app = new Hono();
 const uploadthingRouteHandler = createRouteHandler({

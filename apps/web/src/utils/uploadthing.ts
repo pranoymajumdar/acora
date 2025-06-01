@@ -1,7 +1,7 @@
 import {
+  type GenerateTypedHelpersOptions,
   generateUploadButton,
   generateUploadDropzone,
-  type GenerateTypedHelpersOptions,
 } from "@uploadthing/react";
 
 import type { OurFileRouter } from "@server/src/lib/uploadthing/router";
