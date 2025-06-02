@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 type ProductImageUploadsProps = {
-  onChange: (urls: string[]) => void;
+  onChange: (fileList: File[]) => void;
 };
 export const ProductImageUploads = ({ onChange }: ProductImageUploadsProps) => {
   const {
@@ -25,7 +25,7 @@ export const ProductImageUploads = ({ onChange }: ProductImageUploadsProps) => {
   });
 
   useEffect(() => {
-    const imageUrls = files.map((file) => file.preview);
+    const imageUrls = files.map((file) => file.source);
     onChange(imageUrls);
   }, [onChange, files]);
 

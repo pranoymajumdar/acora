@@ -9,5 +9,4 @@ const initOpts = {
   url: `${import.meta.env.VITE_SERVER_URL}/api/uploadthing`,
 } satisfies GenerateTypedHelpersOptions;
 
-export const { useUploadThing, uploadFiles } =
-  generateReactHelpers<OurFileRouter>(initOpts);
+export const { useUploadThing } = generateReactHelpers<OurFileRouter>(initOpts);

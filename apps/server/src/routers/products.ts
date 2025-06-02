@@ -6,25 +6,23 @@ import { z } from "zod";
 
 export const productsRouter = router({
   create: adminProcedure.input(ProductSchema).mutation(async ({ input }) => {
-    console.log(input);
-    return undefined;
-    // return await prisma.product.create({
-    //   data: {
-    //     name: input.name,
-    //     description: input.description,
-    //     price: input.price,
-    //     shortDescription: input.shortDescription,
-    //     sku: input.sku,
-    //     slug: input.slug,
-    //     stock: input.stock,
-    //     categoryId: input.categoryId,
-    //     discountPrice:
-    //       input.discountPrice > 0 ? input.discountPrice : undefined,
-    //     isActive: input.isActive,
-    //     isFeatured: input.isFeatured,
-    //     imagesUrl: input.imagesUrl,
-    //   },
-    // });
+    return await prisma.product.create({
+      data: {
+        name: input.name,
+        description: input.description,
+        price: input.price,
+        shortDescription: input.shortDescription,
+        sku: input.sku,
+        slug: input.slug,
+        stock: input.stock,
+        categoryId: input.categoryId,
+        discountPrice:
+          input.discountPrice > 0 ? input.discountPrice : undefined,
+        isActive: input.isActive,
+        isFeatured: input.isFeatured,
+        imagesUrl: input.imagesUrl,
+      },
+    });
   }),
   getAll: publicProcedure.query(async () => {
     return await prisma.product.findMany({

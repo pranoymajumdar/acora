@@ -18,12 +18,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { generateSKU } from "@/utils/generate-sku";
 import { generateSlug } from "@/utils/generate-slug";
 import { trpc } from "@/utils/trpc";
+import { useUploadThing } from "@/utils/uploadthing";
 import { ProductSchema } from "@acora/zod-schemas";
 import { formOptions, useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { LucideDollarSign, LucidePackage } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
 
 const productFormOptions = formOptions({
   defaultValues: {
@@ -37,8 +39,8 @@ const productFormOptions = formOptions({
     categoryId: "",
     isActive: true,
     isFeatured: false,
-    imagesUrl: [""],
     discountPrice: 0,
+    imagesUrl: [""],
   },
 });
 
@@ -50,11 +52,31 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
   const { data: categories } = useQuery(trpc.category.getAll.queryOptions());
   const createProduct = useMutation(trpc.products.create.mutationOptions());
+  const [files, setFiles] = useState<File[]>([]);
 
+  const uploadthing = useUploadThing("image", {
+    onUploadError: (error) => {
+      toast.error(error.message);
+    },
+    onUploadBegin: (fileName) => {
+      toast.loading(`Uploading: ${fileName}`);
+    },
+    onClientUploadComplete: () => {
+      const toasts = toast.getToasts();
+      for (const item of toasts) {
+        toast.dismiss(item.id);
+      }
+    },
+  });
   const form = useForm({
     ...productFormOptions,
     onSubmit: async ({ value }) => {
-      await createProduct.mutateAsync(value);
+      const uploadedFiles = await uploadthing.startUpload(files);
+      if (!uploadedFiles) return toast.error("Unknown error occured");
+
+      const imagesUrl = uploadedFiles.map((file) => file.ufsUrl);
+
+      await createProduct.mutateAsync({ ...value, imagesUrl });
       navigate({
         to: "/dashboard/products",
       });
@@ -94,12 +116,9 @@ function RouteComponent() {
       },
     },
   });
-  const handleImageChanges = useCallback(
-    (urls: string[]) => {
-      form.setFieldValue("imagesUrl", urls);
-    },
-    [form.setFieldValue],
-  );
+  const handleImageChanges = useCallback((fileList: File[]) => {
+    setFiles(fileList);
+  }, []);
 
   return (
     <Wrapper<"form">
