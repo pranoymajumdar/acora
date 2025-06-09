@@ -1,5 +1,14 @@
-import type { ReactNode } from "react";
+import type { ComponentProps } from "react";
+import { cn } from "~/lib/utils";
+import { Header } from "../header";
 
-export const MainLayout = ({ children }: { children: ReactNode }) => {
-  return <>Header {children}</>;
+export const MainLayout = ({ children, className }: ComponentProps<"main">) => {
+  return (
+    <>
+      <Header />
+      <main className={cn("max-w-screen-2xl mx-auto px-4", className)}>
+        {children}
+      </main>
+    </>
+  );
 };
