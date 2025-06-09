@@ -1,5 +1,7 @@
+import { MainLayout } from "~/shared/components/layout";
+
 const Index = () => {
-  return <div>Index</div>;
+  return <MainLayout>Hello World</MainLayout>;
 };
 
 export default Index;
