@@ -9,5 +9,4 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: ["https://acora-shop.vercel.app/", "http://localhost:5137"],
 });
