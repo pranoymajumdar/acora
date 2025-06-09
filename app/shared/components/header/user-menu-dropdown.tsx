@@ -10,7 +10,7 @@ import { signOut, useSession } from "~/features/auth/lib/auth";
 import { Link } from "react-router";
 
 export const UserMenuDropdown = () => {
-  const { data: session, error } = useSession();
+  const { data: session } = useSession();
 
   if (!session) {
     return (
