@@ -1,4 +1,10 @@
-import { Link, Outlet, redirect, useLocation } from "react-router";
+import {
+  Link,
+  Outlet,
+  redirect,
+  useLocation,
+  useSearchParams,
+} from "react-router";
 import { AcoraLogo } from "~/shared/components/logo";
 import {
   Card,
@@ -17,14 +23,19 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   }
 };
 
-const getMetadata = (page: "sign-in" | "sign-up") => {
+const getMetadata = (
+  page: "sign-in" | "sign-up",
+  callbackUrl: string | null
+) => {
   return page === "sign-in"
     ? {
         title: "Sign In",
         description: "Sign in to your account to continue shopping.",
         footer: {
           text: "Don't have an account?",
-          link: "/sign-up",
+          link: !!callbackUrl
+            ? `/sign-up?callbackUrl=${callbackUrl}`
+            : "/sign-up",
         },
       }
     : {
@@ -32,18 +43,20 @@ const getMetadata = (page: "sign-in" | "sign-up") => {
         description: "Create an account to start shopping with us.",
         footer: {
           text: "Already have an account?",
-          link: "/sign-in",
+          link: !!callbackUrl
+            ? `/sign-in?callbackUrl=${callbackUrl}`
+            : "/sign-in",
         },
       };
 };
 
-const AuthLayout = ({ loaderData }: Route.ComponentProps) => {
+const AuthLayout = () => {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  const pathname = location.pathname;
-  const page = pathname === "/sign-in" ? "sign-in" : "sign-up";
+  const page = location.pathname === "/sign-in" ? "sign-in" : "sign-up";
 
-  const metadata = getMetadata(page);
+  const metadata = getMetadata(page, searchParams.get("callbackUrl"));
 
   return (
     <main className="min-h-screen flex items-center justify-center p-4">

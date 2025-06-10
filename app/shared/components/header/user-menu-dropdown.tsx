@@ -1,36 +1,70 @@
-import { Button } from "~/shared/components/ui/button";
+import { Button, buttonVariants } from "~/shared/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
 } from "~/shared/components/ui/dropdown-menu";
-import { LucideUser } from "lucide-react";
+import {
+  LucideCircleUserRound,
+  LucideLayers,
+  LucideLogOut,
+  LucideUser,
+} from "lucide-react";
 import { signOut, useSession } from "~/features/auth/lib/auth";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export const UserMenuDropdown = () => {
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
+  const location = useLocation();
+  if (isPending) {
+    return <Button size="icon" variant="ghost" loading={isPending} />;
+  }
 
   if (!session) {
     return (
-      <Button asChild>
-        <Link to="/sign-in">Login</Link>
-      </Button>
+      <Link
+        className={buttonVariants({
+          size: "sm",
+        })}
+        to={`/sign-in?callbackUrl=${location.pathname}`}
+      >
+        Login
+      </Link>
     );
   }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <LucideUser className="h-5 w-5" />
+        <Button size="icon" variant="ghost" aria-label="Open account menu">
+          <LucideCircleUserRound size={16} aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Orders</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => signOut()}>Sign out</DropdownMenuItem>
+      <DropdownMenuContent className="max-w-64">
+        <DropdownMenuLabel className="flex flex-col">
+          <span>Signed in as</span>
+          <span className="text-foreground text-xs font-normal">
+            {session.user.email}
+          </span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <LucideUser />
+            Manage Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <LucideLayers />
+            My Orders
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive" onSelect={() => signOut()}>
+          <LucideLogOut /> Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

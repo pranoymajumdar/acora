@@ -12,6 +12,7 @@ import { useTransition } from "react";
 import { signIn } from "../lib/auth";
 import { toast } from "sonner";
 import { clearToasts } from "~/utils/clear-toasts";
+import { useSearchParams } from "react-router";
 
 export const SignInForm = () => {
   const form = useForm<SignInFormSchemaType>({
@@ -21,6 +22,8 @@ export const SignInForm = () => {
       password: "",
     },
   });
+  const [searchParams] = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const [isPending, startTransition] = useTransition();
   const onSubmit = (values: SignInFormSchemaType) => {
@@ -29,7 +32,7 @@ export const SignInForm = () => {
         {
           email: values.email,
           password: values.password,
-          callbackURL: "/",
+          callbackURL: callbackUrl,
         },
         {
           onRequest: () => {
