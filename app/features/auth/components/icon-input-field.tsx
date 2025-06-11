@@ -1,18 +1,20 @@
 "use client";
 
-import { LucideEye, LucideEyeOff, type LucideIcon } from "lucide-react";
-import { useState, type HTMLInputTypeAttribute } from "react";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
+
+import { LucideEye, LucideEyeOff, type LucideIcon } from "lucide-react";
+import { type HTMLInputTypeAttribute, useState } from "react";
+
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "~/shared/components/ui/form";
 import { Input } from "~/shared/components/ui/input";
 
-interface IconInputFieldProps<T extends FieldValues> {
+type IconInputFieldProps<T extends FieldValues> = {
   control: Control<T>;
   name: FieldPath<T>;
   label: string;
@@ -20,9 +22,9 @@ interface IconInputFieldProps<T extends FieldValues> {
   icon: LucideIcon;
   disabled?: boolean;
   type?: HTMLInputTypeAttribute;
-}
+};
 
-export const IconInputField = <T extends FieldValues>({
+export function IconInputField<T extends FieldValues>({
   control,
   icon: Icon,
   label,
@@ -30,10 +32,10 @@ export const IconInputField = <T extends FieldValues>({
   placeholder,
   disabled = false,
   type,
-}: IconInputFieldProps<T>) => {
+}: IconInputFieldProps<T>) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+  const toggleVisibility = (): void => setIsVisible(prevState => !prevState);
   return (
     <FormField
       control={control}
@@ -48,9 +50,7 @@ export const IconInputField = <T extends FieldValues>({
                 placeholder={placeholder}
                 disabled={disabled}
                 className="peer ps-9"
-                type={
-                  type === "password" ? (isVisible ? "text" : "password") : type
-                }
+                type={type === "password" ? (isVisible ? "text" : "password") : type}
                 {...field}
               />
               <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
@@ -63,11 +63,7 @@ export const IconInputField = <T extends FieldValues>({
                   onClick={toggleVisibility}
                   className="absolute inset-y-0 end-0 flex items-center justify-center pe-3"
                 >
-                  {isVisible ? (
-                    <LucideEyeOff size={16} />
-                  ) : (
-                    <LucideEye size={16} />
-                  )}
+                  {isVisible ? <LucideEyeOff size={16} /> : <LucideEye size={16} />}
                 </button>
               )}
             </div>
@@ -77,4 +73,4 @@ export const IconInputField = <T extends FieldValues>({
       )}
     />
   );
-};
+}

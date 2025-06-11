@@ -1,23 +1,19 @@
+import { LucideCircleUserRound, LucideLayers, LucideLogOut, LucideUser } from "lucide-react";
+import { Link, useLocation } from "react-router";
+
+import { signOut, useSession } from "~/features/auth/lib/auth";
 import { Button, buttonVariants } from "~/shared/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuGroup,
+  DropdownMenuTrigger,
 } from "~/shared/components/ui/dropdown-menu";
-import {
-  LucideCircleUserRound,
-  LucideLayers,
-  LucideLogOut,
-  LucideUser,
-} from "lucide-react";
-import { signOut, useSession } from "~/features/auth/lib/auth";
-import { Link, useLocation } from "react-router";
 
-export const UserMenuDropdown = () => {
+export function UserMenuDropdown() {
   const { data: session, isPending } = useSession();
   const location = useLocation();
   if (isPending) {
@@ -46,9 +42,7 @@ export const UserMenuDropdown = () => {
       <DropdownMenuContent className="max-w-64">
         <DropdownMenuLabel className="flex flex-col">
           <span>Signed in as</span>
-          <span className="text-foreground text-xs font-normal">
-            {session.user.email}
-          </span>
+          <span className="text-foreground text-xs font-normal">{session.user.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -63,9 +57,11 @@ export const UserMenuDropdown = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onSelect={() => signOut()}>
-          <LucideLogOut /> Logout
+          <LucideLogOut />
+          {" "}
+          Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}

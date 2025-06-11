@@ -1,19 +1,18 @@
-import { IconInputField } from "./icon-input-field";
-import {
-  SignUpFormSchema,
-  type SignUpFormSchemaType,
-} from "~/features/auth/schemas/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideAtSign, LucideLock, LucideUser } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { clearToasts } from "~/utils/clear-toasts";
-import { Button } from "~/shared/components/ui/button";
-import { signUp } from "../lib/auth";
-import { Form } from "~/shared/components/ui/form";
 
-export const SignUpForm = () => {
+import { SignUpFormSchema, type SignUpFormSchemaType } from "~/features/auth/schemas/sign-up";
+import { Button } from "~/shared/components/ui/button";
+import { Form } from "~/shared/components/ui/form";
+import { clearToasts } from "~/shared/utils/clear-toasts";
+
+import { signUp } from "../lib/auth";
+import { IconInputField } from "./icon-input-field";
+
+export function SignUpForm() {
   const form = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
@@ -25,7 +24,7 @@ export const SignUpForm = () => {
   });
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = (values: SignUpFormSchemaType) => {
+  const onSubmit = (values: SignUpFormSchemaType): void => {
     startTransition(async () => {
       await signUp.email(
         {
@@ -47,7 +46,7 @@ export const SignUpForm = () => {
             clearToasts();
             toast.error(ctx.error.message);
           },
-        }
+        },
       );
     });
   };
@@ -98,4 +97,4 @@ export const SignUpForm = () => {
       </form>
     </Form>
   );
-};
+}

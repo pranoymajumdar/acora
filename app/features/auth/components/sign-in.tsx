@@ -1,20 +1,19 @@
-import {
-  SignInFormSchema,
-  type SignInFormSchemaType,
-} from "~/features/auth/schemas/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideAtSign, LucideLock } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { IconInputField } from "./icon-input-field";
-import { Form } from "~/shared/components/ui/form";
-import { Button } from "~/shared/components/ui/button";
 import { useTransition } from "react";
-import { signIn } from "../lib/auth";
-import { toast } from "sonner";
-import { clearToasts } from "~/utils/clear-toasts";
+import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router";
+import { toast } from "sonner";
 
-export const SignInForm = () => {
+import { SignInFormSchema, type SignInFormSchemaType } from "~/features/auth/schemas/sign-in";
+import { Button } from "~/shared/components/ui/button";
+import { Form } from "~/shared/components/ui/form";
+import { clearToasts } from "~/shared/utils/clear-toasts";
+
+import { signIn } from "../lib/auth";
+import { IconInputField } from "./icon-input-field";
+
+export function SignInForm() {
   const form = useForm<SignInFormSchemaType>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
@@ -26,7 +25,7 @@ export const SignInForm = () => {
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const [isPending, startTransition] = useTransition();
-  const onSubmit = (values: SignInFormSchemaType) => {
+  const onSubmit = (values: SignInFormSchemaType): void => {
     startTransition(async () => {
       signIn.email(
         {
@@ -47,7 +46,7 @@ export const SignInForm = () => {
             clearToasts();
             toast.error(ctx.error.message);
           },
-        }
+        },
       );
     });
   };
@@ -81,4 +80,4 @@ export const SignInForm = () => {
       </form>
     </Form>
   );
-};
+}

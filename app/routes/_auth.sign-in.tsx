@@ -1,7 +1,7 @@
 import { SignInForm } from "~/features/auth/components/sign-in";
 
-const SignInPage = () => {
+function SignInPage() {
   return <SignInForm />;
-};
+}
 
 export default SignInPage;

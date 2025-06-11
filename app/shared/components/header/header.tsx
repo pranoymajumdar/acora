@@ -1,11 +1,13 @@
-import { AcoraLogo } from "~/shared/components/logo";
-import { DesktopNavigation } from "./desktop-navigation";
-import { Button } from "~/shared/components/ui/button";
 import { LucideShoppingCart } from "lucide-react";
-import { UserMenuDropdown } from "./user-menu-dropdown";
 import { Link } from "react-router";
 
-export const Header = () => {
+import { AcoraLogo } from "~/shared/components/logo";
+import { Button } from "~/shared/components/ui/button";
+
+import { DesktopNavigation } from "./desktop-navigation";
+import { UserMenuDropdown } from "./user-menu-dropdown";
+
+export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
@@ -27,4 +29,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+}

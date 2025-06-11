@@ -5,7 +5,7 @@ export const SignInFormSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" })
-    .regex(/[a-zA-Z0-9]/, { message: "Password must be alphanumeric" }),
+    .regex(/[a-z0-9]/i, { message: "Password must be alphanumeric" }),
 });
 
 export type SignInFormSchemaType = z.infer<typeof SignInFormSchema>;
