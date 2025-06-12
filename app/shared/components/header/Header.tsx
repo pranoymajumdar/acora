@@ -1,13 +1,18 @@
 import { LucideShoppingCart } from "lucide-react";
 import { Link } from "react-router";
 
-import { AcoraLogo } from "~/shared/components/logo";
+import type { CollectionHierarchy } from "~/features/collections/types";
+import type { SessionDataType } from "~/shared/types/getSession";
+
+import { AcoraLogo } from "~/shared/components/Logo";
 import { Button } from "~/shared/components/ui/button";
 
-import { DesktopNavigation } from "./desktop-navigation";
-import { UserMenuDropdown } from "./user-menu-dropdown";
+import { DesktopNavigation } from "./DesktopNavigation";
+import { UserMenuDropdown } from "./UserMenuDropdown";
 
-export function Header() {
+type HeaderProps = { sessionData: SessionDataType; collections: CollectionHierarchy[] };
+
+export function Header({ sessionData, collections }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
@@ -17,14 +22,14 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <DesktopNavigation />
+        <DesktopNavigation collections={collections} />
 
         <div className="flex items-center gap-4">
           {/* Cart Button */}
           <Button variant="ghost" size="icon">
             <LucideShoppingCart className="h-5 w-5" />
           </Button>
-          <UserMenuDropdown />
+          <UserMenuDropdown sessionData={sessionData} />
         </div>
       </div>
     </header>

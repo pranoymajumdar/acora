@@ -1,7 +1,9 @@
 import { LucideCircleUserRound, LucideLayers, LucideLogOut, LucideUser } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useRevalidator } from "react-router";
 
-import { signOut, useSession } from "~/features/auth/lib/auth";
+import type { SessionDataType } from "~/shared/types/getSession";
+
+import { signOut } from "~/features/auth/lib/auth";
 import { Button, buttonVariants } from "~/shared/components/ui/button";
 import {
   DropdownMenu,
@@ -13,25 +15,26 @@ import {
   DropdownMenuTrigger,
 } from "~/shared/components/ui/dropdown-menu";
 
-export function UserMenuDropdown() {
-  const { data: session, isPending } = useSession();
+function LoginButton() {
   const location = useLocation();
-  if (isPending) {
-    return <Button size="icon" variant="ghost" loading={isPending} />;
-  }
+  return (
+    <Link
+      className={buttonVariants({
+        size: "sm",
+      })}
+      to={`/sign-in?callbackUrl=${location.pathname}`}
+    >
+      Login
+    </Link>
+  );
+}
 
-  if (!session) {
-    return (
-      <Link
-        className={buttonVariants({
-          size: "sm",
-        })}
-        to={`/sign-in?callbackUrl=${location.pathname}`}
-      >
-        Login
-      </Link>
-    );
-  }
+export function UserMenuDropdown({ sessionData }: { sessionData: SessionDataType }) {
+  const { revalidate } = useRevalidator();
+  if (!sessionData)
+    return <LoginButton />;
+
+  const { user } = sessionData;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +45,7 @@ export function UserMenuDropdown() {
       <DropdownMenuContent className="max-w-64">
         <DropdownMenuLabel className="flex flex-col">
           <span>Signed in as</span>
-          <span className="text-foreground text-xs font-normal">{session.user.email}</span>
+          <span className="text-foreground text-xs font-normal">{user.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -56,9 +59,19 @@ export function UserMenuDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onSelect={() => signOut()}>
+        <DropdownMenuItem
+          variant="destructive"
+          onSelect={async () => {
+            await signOut({
+              fetchOptions: {
+                onSuccess: async () => {
+                  await revalidate();
+                },
+              },
+            });
+          }}
+        >
           <LucideLogOut />
-          {" "}
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

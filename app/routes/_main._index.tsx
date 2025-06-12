@@ -1,10 +1,9 @@
 import { ArrowRight, RefreshCw, Shield, Star, Truck } from "lucide-react";
 
-import { MainLayout } from "~/shared/components/layout";
 import { Badge } from "~/shared/components/ui/badge";
 import { Button } from "~/shared/components/ui/button";
 
-function Homepage() {
+function HomePage() {
   // Sample data - replace with your actual data
   const featuredProducts = [
     {
@@ -69,7 +68,7 @@ function Homepage() {
   ];
 
   return (
-    <MainLayout>
+    <main>
       {/* Hero Section - Clean and minimal */}
       <section className="relative py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -219,8 +218,8 @@ function Homepage() {
           </div>
         </div>
       </section>
-    </MainLayout>
+    </main>
   );
 }
 
-export default Homepage;
+export default HomePage;

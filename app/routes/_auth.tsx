@@ -1,7 +1,7 @@
 import { Link, Outlet, redirect, useLocation, useSearchParams } from "react-router";
 
 import { auth } from "~/features/auth/lib/auth.server";
-import { AcoraLogo } from "~/shared/components/logo";
+import { AcoraLogo } from "~/shared/components/Logo";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";
 
 import type { Route } from "./+types/_auth";

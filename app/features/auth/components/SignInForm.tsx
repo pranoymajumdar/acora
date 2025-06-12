@@ -1,37 +1,37 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LucideAtSign, LucideLock, LucideUser } from "lucide-react";
+import { LucideAtSign, LucideLock } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router";
 import { toast } from "sonner";
 
-import { SignUpFormSchema, type SignUpFormSchemaType } from "~/features/auth/schemas/sign-up";
+import { SignInFormSchema, type SignInFormSchemaType } from "~/features/auth/schemas/signIn";
 import { Button } from "~/shared/components/ui/button";
 import { Form } from "~/shared/components/ui/form";
-import { clearToasts } from "~/shared/utils/clear-toasts";
+import { clearToasts } from "~/shared/utils/clearToasts";
 
-import { signUp } from "../lib/auth";
-import { IconInputField } from "./icon-input-field";
+import { signIn } from "../lib/auth";
+import { IconInputField } from "./IconInputField";
 
-export function SignUpForm() {
-  const form = useForm<SignUpFormSchemaType>({
-    resolver: zodResolver(SignUpFormSchema),
+export function SignInForm() {
+  const form = useForm<SignInFormSchemaType>({
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
-  const [isPending, startTransition] = useTransition();
+  const [searchParams] = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  const onSubmit = (values: SignUpFormSchemaType): void => {
+  const [isPending, startTransition] = useTransition();
+  const onSubmit = (values: SignInFormSchemaType): void => {
     startTransition(async () => {
-      await signUp.email(
+      signIn.email(
         {
           email: values.email,
           password: values.password,
-          name: values.name,
-          callbackURL: "/",
+          callbackURL: callbackUrl,
         },
         {
           onRequest: () => {
@@ -39,7 +39,7 @@ export function SignUpForm() {
           },
           onSuccess: () => {
             clearToasts();
-            toast.success("Sign up successful!");
+            toast.success("Sign in successful!");
             form.reset();
           },
           onError: (ctx) => {
@@ -57,14 +57,6 @@ export function SignUpForm() {
         <div className="grid gap-4">
           <IconInputField
             control={form.control}
-            name="name"
-            label="Name"
-            placeholder="John Doe"
-            disabled={isPending}
-            icon={LucideUser}
-          />
-          <IconInputField
-            control={form.control}
             name="email"
             label="Email"
             placeholder="johndoe@example.com"
@@ -80,19 +72,10 @@ export function SignUpForm() {
             disabled={isPending}
             type="password"
           />
-          <IconInputField
-            control={form.control}
-            name="confirmPassword"
-            label="Confirm Password"
-            placeholder="••••••••••••"
-            disabled={isPending}
-            icon={LucideLock}
-            type="password"
-          />
         </div>
 
         <Button loading={isPending} className="w-full">
-          Sign Up
+          Sign In
         </Button>
       </form>
     </Form>
