@@ -1,13 +1,14 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "~/lib/db.server";
-import { collectionsTable, shopTable, type Collection, type Shop } from "~/lib/schemas";
+import { type Collection, collectionsTable, type Shop, shopTable } from "~/lib/schemas";
+
 import type { ShopWithCollection } from "./interfaces";
 
 export async function getShops() {
   const rows = await db.select({
     shop: shopTable,
-    collection: collectionsTable
+    collection: collectionsTable,
   }).from(shopTable).leftJoin(
     collectionsTable,
     eq(shopTable.id, collectionsTable.shopId),
@@ -18,14 +19,14 @@ export async function getShops() {
     if (!acc[shopId]) {
       acc[shopId] = {
         ...row.shop,
-        collections: []
+        collections: [],
       };
     }
 
     if (row.collection?.id) {
       acc[shopId].collections.push(row.collection);
     }
-    return acc
+    return acc;
   }, {} as Record<string, ShopWithCollection>);
 
   return Object.values(grouped);
@@ -34,20 +35,19 @@ export async function getShops() {
 export async function getShop(slug: string) {
   const rows = await db.select({
     shop: shopTable,
-    collection: collectionsTable
-  }).from(shopTable).where(eq(shopTable.slug, slug)).leftJoin(collectionsTable, eq(collectionsTable.shopId, shopTable.id))
+    collection: collectionsTable,
+  }).from(shopTable).where(eq(shopTable.slug, slug)).leftJoin(collectionsTable, eq(collectionsTable.shopId, shopTable.id));
 
   const collections: Collection[] = [];
-  let shop: Shop = rows[0].shop
+  const shop: Shop = rows[0].shop;
   for (const row of rows) {
     if (row.collection) {
-
-      collections.push(row.collection)
+      collections.push(row.collection);
     }
   }
 
   return {
     ...shop,
-    collection: collections
-  }
+    collection: collections,
+  };
 }

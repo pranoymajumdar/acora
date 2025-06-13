@@ -22,7 +22,7 @@ function LoginButton() {
       className={buttonVariants({
         size: "sm",
       })}
-      to={`/sign-in?callbackUrl=${location.pathname}`}
+      to={`/auth?callbackUrl=${location.pathname}`}
     >
       Login
     </Link>

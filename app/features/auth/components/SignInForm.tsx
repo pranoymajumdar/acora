@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideAtSign, LucideLock } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router";
+import { useRevalidator } from "react-router";
 import { toast } from "sonner";
 
 import { SignInFormSchema, type SignInFormSchemaType } from "~/features/auth/schemas/signIn";
@@ -21,17 +21,16 @@ export function SignInForm() {
       password: "",
     },
   });
-  const [searchParams] = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const [isPending, startTransition] = useTransition();
+  const { revalidate } = useRevalidator();
+
   const onSubmit = (values: SignInFormSchemaType): void => {
     startTransition(async () => {
       signIn.email(
         {
           email: values.email,
           password: values.password,
-          callbackURL: callbackUrl,
         },
         {
           onRequest: () => {
@@ -41,6 +40,7 @@ export function SignInForm() {
             clearToasts();
             toast.success("Sign in successful!");
             form.reset();
+            revalidate();
           },
           onError: (ctx) => {
             clearToasts();

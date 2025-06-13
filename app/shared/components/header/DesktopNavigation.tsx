@@ -1,7 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "react-router";
 
-import type { ShopWithCollection } from "~/features/shop/interfaces";
-
+import { useTRPC } from "~/lib/trpc";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,7 +11,9 @@ import {
   NavigationMenuTrigger,
 } from "~/shared/components/ui/navigation-menu";
 
-export function DesktopNavigation({ shop }: { shop: ShopWithCollection[] }) {
+export function DesktopNavigation() {
+  const trpc = useTRPC();
+  const { data: shop } = useQuery(trpc.shop.all.queryOptions());
   return (
     <NavigationMenu>
       <NavigationMenuList>

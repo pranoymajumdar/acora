@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createTRPCClient, httpBatchLink } from "@trpc/client";
+import { type ReactNode, useState } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -9,11 +10,14 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import "./app.css";
+
 import type { Route } from "./+types/root";
+import type { AppRouter } from "./server/api/root";
 
 import { auth } from "./features/auth/lib/auth.server";
+import { TRPCProvider } from "./lib/trpc";
 import { Toaster } from "./shared/components/ui/sonner";
-import "./app.css";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await auth.api.getSession({ headers: request.headers });
@@ -42,8 +46,47 @@ export function Layout({ children }: { children: ReactNode }) {
   );
 }
 
+function makeQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+      },
+    },
+  });
+}
+
+let browserQueryClient: QueryClient | undefined;
+
+function getQueryClient() {
+  if (typeof window === "undefined") {
+    return makeQueryClient();
+  }
+  if (!browserQueryClient)
+    browserQueryClient = makeQueryClient();
+
+  return browserQueryClient;
+}
+
 export default function App() {
-  return <Outlet />;
+  const queryClient = getQueryClient();
+
+  const [trpcClient] = useState(() =>
+    createTRPCClient<AppRouter>({
+      links: [
+        httpBatchLink({
+          url: import.meta.env.VITE_BATCH_LINK,
+        }),
+      ],
+    }),
+  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+        <Outlet />
+      </TRPCProvider>
+    </QueryClientProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

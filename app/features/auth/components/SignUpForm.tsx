@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideAtSign, LucideLock, LucideUser } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useRevalidator } from "react-router";
 import { toast } from "sonner";
 
 import { SignUpFormSchema, type SignUpFormSchemaType } from "~/features/auth/schemas/signUp";
@@ -23,6 +24,7 @@ export function SignUpForm() {
     },
   });
   const [isPending, startTransition] = useTransition();
+  const { revalidate } = useRevalidator();
 
   const onSubmit = (values: SignUpFormSchemaType): void => {
     startTransition(async () => {
@@ -31,7 +33,6 @@ export function SignUpForm() {
           email: values.email,
           password: values.password,
           name: values.name,
-          callbackURL: "/",
         },
         {
           onRequest: () => {
@@ -41,6 +42,7 @@ export function SignUpForm() {
             clearToasts();
             toast.success("Sign up successful!");
             form.reset();
+            revalidate();
           },
           onError: (ctx) => {
             clearToasts();

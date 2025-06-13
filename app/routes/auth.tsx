@@ -1,51 +1,53 @@
-import { Link, Outlet, redirect, useLocation, useSearchParams } from "react-router";
+import { useState } from "react";
+import { redirect } from "react-router";
 
+import { SignInForm } from "~/features/auth/components/SignInForm";
+import { SignUpForm } from "~/features/auth/components/SignUpForm";
 import { auth } from "~/features/auth/lib/auth.server";
 import { AcoraLogo } from "~/shared/components/Logo";
+import { Button } from "~/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";
 
-import type { Route } from "./+types/_auth";
+import type { Route } from "../+types/root";
 
 export async function loader({ request }: Route.LoaderArgs): Promise<void | Response> {
+  const url = new URL(request.url);
+  const callback = url.searchParams.get("callbackUrl") || "/";
   const session = await auth.api.getSession({ headers: request.headers });
   if (session) {
-    return redirect("/");
+    return redirect(callback);
   }
 }
 
 type MetaData = {
   title: string;
   description: string;
-  footer: { text: string; link: string };
+  footer: {
+    text: string;
+  };
 };
 
-function getMetadata(page: "sign-in" | "sign-up", callbackUrl: string | null): MetaData {
+type Page = "sign-in" | "sign-up";
+
+function getMetadata(page: Page): MetaData {
   return page === "sign-in"
     ? {
         title: "Sign In",
         description: "Sign in to your account to continue shopping.",
         footer: {
           text: "Don't have an account?",
-          link: callbackUrl ? `/sign-up?callbackUrl=${callbackUrl}` : "/sign-up",
         },
       }
     : {
         title: "Sign Up",
         description: "Create an account to start shopping with us.",
-        footer: {
-          text: "Already have an account?",
-          link: callbackUrl ? `/sign-in?callbackUrl=${callbackUrl}` : "/sign-in",
-        },
+        footer: { text: "Already have an account?" },
       };
 }
 
-function AuthLayout() {
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
-
-  const page = location.pathname === "/sign-in" ? "sign-in" : "sign-up";
-
-  const metadata = getMetadata(page, searchParams.get("callbackUrl"));
+function AuthPage() {
+  const [page, setPage] = useState<Page>("sign-in");
+  const metadata = getMetadata(page);
 
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
@@ -60,18 +62,20 @@ function AuthLayout() {
           </div>
         </CardHeader>
         <CardContent className="px-6">
-          <Outlet />
+          {page === "sign-in"
+            ? <SignInForm />
+            : <SignUpForm />}
         </CardContent>
 
         <CardFooter className="px-6 py-4 text-sm text-center mx-auto">
-          {metadata.footer.text}
-          <Link to={metadata.footer.link} className="text-primary hover:underline ml-1">
+          <span>{metadata.footer.text}</span>
+          <Button variant="link" size="sm" onClick={() => setPage(prev => prev === "sign-in" ? "sign-up" : "sign-in")}>
             {page === "sign-in" ? "Sign up" : "Sign in"}
-          </Link>
+          </Button>
         </CardFooter>
       </Card>
     </main>
   );
 }
 
-export default AuthLayout;
+export default AuthPage;

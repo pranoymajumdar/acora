@@ -8,11 +8,10 @@ import { Button } from "~/shared/components/ui/button";
 
 import { DesktopNavigation } from "./DesktopNavigation";
 import { UserMenuDropdown } from "./UserMenuDropdown";
-import type { ShopWithCollection } from "~/features/shop/interfaces";
 
-type HeaderProps = { sessionData: SessionDataType; shop: ShopWithCollection[] };
+type HeaderProps = { sessionData: SessionDataType };
 
-export function Header({ sessionData, shop }: HeaderProps) {
+export function Header({ sessionData }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
@@ -22,7 +21,7 @@ export function Header({ sessionData, shop }: HeaderProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <DesktopNavigation shop={shop} />
+        <DesktopNavigation />
 
         <div className="flex items-center gap-4">
           {/* Cart Button */}
