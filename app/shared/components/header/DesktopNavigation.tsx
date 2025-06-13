@@ -1,6 +1,7 @@
-
 import { NavLink } from "react-router";
-import type { CollectionHierarchy } from "~/features/collections/types";
+
+import type { ShopWithCollection } from "~/features/shop/interfaces";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,69 +9,28 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "~/shared/components/ui/navigation-menu";
 
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Clothing",
-    href: "/categories/clothing",
-    description:
-      "Discover our latest fashion collection including tops, bottoms, dresses, and outerwear.",
-  },
-  {
-    title: "Electronics",
-    href: "/categories/electronics",
-    description:
-      "Browse our selection of smartphones, laptops, tablets, and accessories.",
-  },
-  {
-    title: "Home & Living",
-    href: "/categories/home-living",
-    description:
-      "Find furniture, decor, kitchenware, and everything you need for your home.",
-  },
-  {
-    title: "Beauty",
-    href: "/categories/beauty",
-    description: "Explore skincare, makeup, fragrances, and personal care products.",
-  },
-  {
-    title: "Sports & Fitness",
-    href: "/categories/sports",
-    description:
-      "Get equipped with sportswear, exercise equipment, and outdoor gear.",
-  },
-  {
-    title: "Books & Media",
-    href: "/categories/books",
-    description:
-      "Browse through books, magazines, music, movies, and digital content.",
-  },
-]
-
-export function DesktopNavigation({ collections }: { collections: CollectionHierarchy[] }) {
+export function DesktopNavigation({ shop }: { shop: ShopWithCollection[] }) {
   return (
-
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <NavLink to='/'>Home</NavLink>
+            <NavLink to="/">Home</NavLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map((component) => (
+              {shop && shop.map(shop => (
                 <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
+                  key={shop.id}
+                  title={shop.name}
+                  href={`/shop/${shop.slug}`}
                 >
-                  {component.description}
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, amet?
                 </ListItem>
               ))}
             </ul>
@@ -98,5 +58,5 @@ function ListItem({
         </NavLink>
       </NavigationMenuLink>
     </li>
-  )
+  );
 }
