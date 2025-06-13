@@ -12,8 +12,8 @@ import {
 
 import "./app.css";
 
-import type { Route } from "./+types/root";
 import type { AppRouter } from "./.server/api/root";
+import type { Route } from "./+types/root";
 
 import { auth } from "./.server/auth/config";
 import { TRPCProvider } from "./lib/trpc";
