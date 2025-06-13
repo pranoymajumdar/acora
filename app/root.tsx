@@ -13,9 +13,9 @@ import {
 import "./app.css";
 
 import type { Route } from "./+types/root";
-import type { AppRouter } from "./server/api/root";
+import type { AppRouter } from "./.server/api/root";
 
-import { auth } from "./features/auth/lib/auth.server";
+import { auth } from "./.server/auth/config";
 import { TRPCProvider } from "./lib/trpc";
 import { Toaster } from "./shared/components/ui/sonner";
 

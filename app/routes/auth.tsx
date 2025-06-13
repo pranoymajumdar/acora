@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { redirect } from "react-router";
 
-import { SignInForm } from "~/features/auth/components/SignInForm";
-import { SignUpForm } from "~/features/auth/components/SignUpForm";
-import { auth } from "~/features/auth/lib/auth.server";
+import { auth } from "~/.server/auth/config";
+import { SignInForm } from "~/shared/components/auth/SignInForm";
+import { SignUpForm } from "~/shared/components/auth/SignUpForm";
 import { AcoraLogo } from "~/shared/components/Logo";
 import { Button } from "~/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/shared/components/ui/card";

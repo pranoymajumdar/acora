@@ -19,7 +19,9 @@ export function DesktopNavigation() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">
+              Home
+            </NavLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>

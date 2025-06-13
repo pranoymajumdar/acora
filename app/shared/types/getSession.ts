@@ -1,4 +1,4 @@
-import type { auth } from "~/features/auth/lib/auth.server";
+import type { auth } from "~/.server/auth/config";
 
 export type SessionDataType = Awaited<ReturnType<typeof auth.api.getSession>>;
 

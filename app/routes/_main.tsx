@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 
-import { auth } from "~/features/auth/lib/auth.server";
+import { auth } from "~/.server/auth/config";
 import { Header } from "~/shared/components/header";
 
 import type { Route } from "./+types/_main";

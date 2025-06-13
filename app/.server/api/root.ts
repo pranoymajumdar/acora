@@ -1,5 +1,5 @@
-import { router } from "./trpc";
 import { shopRouter } from "./routes/shop";
+import { router } from "./trpc";
 
 export const appRouter = router({
   shop: shopRouter,

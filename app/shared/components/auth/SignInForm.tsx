@@ -4,14 +4,23 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { useRevalidator } from "react-router";
 import { toast } from "sonner";
+import { z } from "zod";
 
-import { SignInFormSchema, type SignInFormSchemaType } from "~/features/auth/schemas/signIn";
+import { signIn } from "~/lib/auth";
+import { IconInputField } from "~/shared/components/forms/IconInputField";
 import { Button } from "~/shared/components/ui/button";
 import { Form } from "~/shared/components/ui/form";
 import { clearToasts } from "~/shared/utils/clearToasts";
 
-import { signIn } from "../lib/auth";
-import { IconInputField } from "./IconInputField";
+export const SignInFormSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .regex(/[a-z0-9]/i, { message: "Password must be alphanumeric" }),
+});
+
+export type SignInFormSchemaType = z.infer<typeof SignInFormSchema>;
 
 export function SignInForm() {
   const form = useForm<SignInFormSchemaType>({

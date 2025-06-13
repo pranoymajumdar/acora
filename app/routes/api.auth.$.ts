@@ -1,4 +1,4 @@
-import { auth } from "~/features/auth/lib/auth.server";
+import { auth } from "~/.server/auth/config";
 
 import type { Route } from "./+types/api.auth.$";
 

@@ -3,7 +3,7 @@ import { Link, useLocation, useRevalidator } from "react-router";
 
 import type { SessionDataType } from "~/shared/types/getSession";
 
-import { signOut } from "~/features/auth/lib/auth";
+import { signOut } from "~/lib/auth";
 import { Button, buttonVariants } from "~/shared/components/ui/button";
 import {
   DropdownMenu,
