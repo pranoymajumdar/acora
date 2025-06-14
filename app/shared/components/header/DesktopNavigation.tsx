@@ -15,7 +15,7 @@ export function DesktopNavigation() {
   const trpc = useTRPC();
   const { data: shop } = useQuery(trpc.shop.all.queryOptions());
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden md:block">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
@@ -32,7 +32,7 @@ export function DesktopNavigation() {
                 <ListItem
                   key={shop.id}
                   title={shop.name}
-                  href={`/shop/${shop.slug}`}
+                  href={`/shop?shopSlug=${shop.slug}&?collectionSlug=${shop.collection[0].slug}`}
                 >
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, amet?
                 </ListItem>
