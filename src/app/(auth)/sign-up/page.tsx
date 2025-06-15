@@ -1,12 +1,24 @@
 "use client";
 
-import { IconInputField } from "@/components/IconInputField";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import { clearToasts } from "@/utils/clearToasts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LucideAtSign, LucideEye, LucideEyeOff, LucideLock, LucideUser } from "lucide-react";
 import Link from "next/link";
@@ -57,18 +69,13 @@ const SignUpPage = () => {
           name: values.name,
         },
         {
-          onRequest: () => {
-            toast.loading("Processing...");
-          },
           onSuccess: () => {
-            clearToasts();
             toast.success("Sign up successful!");
             form.reset();
-            router.push(callbackUrl)
+            router.push(callbackUrl);
             router.refresh();
           },
           onError: (ctx) => {
-            clearToasts();
             toast.error(ctx.error.message);
           },
         }
@@ -81,7 +88,9 @@ const SignUpPage = () => {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">Sign In</CardTitle>
-          <CardDescription className="text-muted-foreground">Enter your information to create an account</CardDescription>
+          <CardDescription className="text-muted-foreground">
+            Enter your information to create an account
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -155,7 +164,6 @@ const SignUpPage = () => {
                             <LucideLock size={16} />
                           </div>
 
-
                           <Button
                             type="button"
                             onClick={() => setIsVisible((prevState) => !prevState)}
@@ -166,12 +174,12 @@ const SignUpPage = () => {
                           >
                             {isVisible ? <LucideEyeOff size={16} /> : <LucideEye size={16} />}
                           </Button>
-
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )} />
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="confirmPassword"
@@ -192,7 +200,6 @@ const SignUpPage = () => {
                             <LucideLock size={16} />
                           </div>
 
-
                           <Button
                             type="button"
                             onClick={() => setIsVisible((prevState) => !prevState)}
@@ -203,12 +210,12 @@ const SignUpPage = () => {
                           >
                             {isVisible ? <LucideEyeOff size={16} /> : <LucideEye size={16} />}
                           </Button>
-
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )} />
+                  )}
+                />
               </div>
 
               <Button loading={isPending} className="w-full">
@@ -217,12 +224,17 @@ const SignUpPage = () => {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex items-center justify-center text-muted-foreground">
+        <CardFooter className="flex items-center justify-center text-muted-foreground gap-2">
           <p>{"Already have an account ?"}</p>
-          <Link className={buttonVariants({ size: 'sm', variant: 'link' })} href={`/sign-in?callbackUrl=${callbackUrl}`}>Sign in</Link>
+          <Link
+            className="text-sm font-medium hover:underline text-foreground"
+            href={`/sign-in?callbackUrl=${callbackUrl}`}
+          >
+            Sign in
+          </Link>
         </CardFooter>
       </Card>
-    </div >
+    </div>
   );
 };
 

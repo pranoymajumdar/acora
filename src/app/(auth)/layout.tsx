@@ -15,7 +15,7 @@ const AuthLayout = async ({
   if (data?.session) {
     return redirect("/_not-found");
   }
-  return children
+  return children;
 };
 
 export default AuthLayout;

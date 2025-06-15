@@ -8,9 +8,7 @@ export const LoginButton = () => {
   const pathName = usePathname();
   return (
     <Link
-      className={buttonVariants({
-        size: "sm",
-      })}
+      className={buttonVariants()}
       href={`/sign-in?callbackUrl=${pathName}`}
     >
       Login

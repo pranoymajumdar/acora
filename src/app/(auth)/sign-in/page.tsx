@@ -9,10 +9,22 @@ import { z } from "zod";
 
 import { authClient } from "@/lib/auth-client";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { clearToasts } from "@/utils/clearToasts";
-import { IconInputField } from "@/components/IconInputField";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -50,18 +62,13 @@ const SignInPage = () => {
           password: values.password,
         },
         {
-          onRequest: () => {
-            toast.loading("Processing...");
-          },
           onSuccess: () => {
-            clearToasts();
             toast.success("Sign in successful!");
             form.reset();
             router.push(callbackUrl);
-            router.refresh()
+            router.refresh();
           },
           onError: (ctx) => {
-            clearToasts();
             toast.error(ctx.error.message);
           },
         }
@@ -74,7 +81,9 @@ const SignInPage = () => {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">Sign In</CardTitle>
-          <CardDescription className="text-muted-foreground">Enter your email below to login to your account</CardDescription>
+          <CardDescription className="text-muted-foreground">
+            Enter your email below to login to your account
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -111,7 +120,12 @@ const SignInPage = () => {
                     <FormItem>
                       <div className="flex items-center justify-between">
                         <FormLabel htmlFor={field.name}>Password</FormLabel>
-                        <Link className={buttonVariants({ variant: 'link', size: 'sm', className: 'text-muted-foreground' })} href="/forgot-password">Forgot your password?</Link>
+                        <Link
+                          className="text-sm hover:underline"
+                          href="/forgot-password"
+                        >
+                          Forgot password?
+                        </Link>
                       </div>
                       <FormControl>
                         <div className="relative">
@@ -127,7 +141,6 @@ const SignInPage = () => {
                             <LucideLock size={16} />
                           </div>
 
-
                           <Button
                             type="button"
                             onClick={() => setIsVisible((prevState) => !prevState)}
@@ -138,12 +151,12 @@ const SignInPage = () => {
                           >
                             {isVisible ? <LucideEyeOff size={16} /> : <LucideEye size={16} />}
                           </Button>
-
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )} />
+                  )}
+                />
               </div>
 
               <Button loading={isPending} className="w-full">
@@ -152,12 +165,17 @@ const SignInPage = () => {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex items-center justify-center text-muted-foreground">
+        <CardFooter className="flex items-center justify-center text-muted-foreground gap-2">
           <p>{"Don't have an account ?"}</p>
-          <Link className={buttonVariants({ size: 'sm', variant: 'link' })} href={`/sign-up?callbackUrl=${callbackUrl}`}>Sign up</Link>
+          <Link
+            className="text-sm font-medium hover:underline text-foreground"
+            href={`/sign-up?callbackUrl=${callbackUrl}`}
+          >
+            Sign up
+          </Link>
         </CardFooter>
       </Card>
-    </div >
+    </div>
   );
 };
 

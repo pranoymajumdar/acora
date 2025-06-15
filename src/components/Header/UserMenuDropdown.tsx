@@ -1,9 +1,9 @@
 "use client";
+
 import {
   LucideCircleAlert,
   LucideCircleUserRound,
   LucideLayers,
-  LucideLoader2,
   LucideLogOut,
   LucideUser,
 } from "lucide-react";
@@ -24,10 +24,10 @@ import { useRouter } from "next/navigation";
 export function UserMenuDropdown() {
   const { data, isPending, error } = authClient.useSession();
   const router = useRouter();
+
+
   if (isPending || !data) {
-    return (
-      <Button size="icon" variant="ghost" loading />
-    );
+    return <Button size="icon" variant="ghost" loading />;
   }
 
   if (error) {
