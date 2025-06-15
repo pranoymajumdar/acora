@@ -1,5 +1,3 @@
-
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -35,8 +33,8 @@ const shop = [
         id: "col:1-4",
         name: "Chargers & Cables",
         slug: "chargers-cables",
-      }
-    ]
+      },
+    ],
   },
   {
     id: "2",
@@ -62,8 +60,8 @@ const shop = [
         id: "col:2-4",
         name: "Accessories",
         slug: "computer-accessories",
-      }
-    ]
+      },
+    ],
   },
   {
     id: "3",
@@ -89,8 +87,8 @@ const shop = [
         id: "col:3-4",
         name: "Smart Home",
         slug: "smart-home",
-      }
-    ]
+      },
+    ],
   },
   {
     id: "4",
@@ -116,10 +114,10 @@ const shop = [
         id: "col:4-4",
         name: "Watches",
         slug: "watches",
-      }
-    ]
-  }
-]
+      },
+    ],
+  },
+];
 
 export function DesktopNavigation() {
   return (
@@ -127,24 +125,23 @@ export function DesktopNavigation() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/">
-              Home
-            </Link>
+            <Link href="/">Home</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {shop?.length && shop.map(shop => (
-                <ListItem
-                  key={shop.id}
-                  title={shop.name}
-                  href={`/shop?shopSlug=${shop.slug}&?collectionSlug=${shop.collection[0].slug}`}
-                >
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, amet?
-                </ListItem>
-              ))}
+              {shop?.length &&
+                shop.map((shop) => (
+                  <ListItem
+                    key={shop.id}
+                    title={shop.name}
+                    href={`/shop?shopSlug=${shop.slug}&?collectionSlug=${shop.collection[0].slug}`}
+                  >
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, amet?
+                  </ListItem>
+                ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -164,9 +161,7 @@ function ListItem({
       <NavigationMenuLink asChild>
         <Link href={href}>
           <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
+          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
         </Link>
       </NavigationMenuLink>
     </li>

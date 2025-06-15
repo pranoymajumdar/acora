@@ -1,17 +1,17 @@
-import { Header } from '@/components/Header';
-import { ReactNode } from 'react'
+import { Header } from "@/components/Header";
+import { ReactNode } from "react";
 
 const MainLayout = ({
-    children,
+  children,
 }: Readonly<{
-    children: ReactNode;
+  children: ReactNode;
 }>) => {
-    return (
-        <>
-            <Header />
-            {children}
-        </>
-    )
-}
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
+};
 
-export default MainLayout
+export default MainLayout;

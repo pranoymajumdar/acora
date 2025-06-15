@@ -5,13 +5,7 @@ import type { Control, FieldPath, FieldValues } from "react-hook-form";
 import { LucideEye, LucideEyeOff, type LucideIcon } from "lucide-react";
 import { type HTMLInputTypeAttribute, useState } from "react";
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 type IconInputFieldProps<T extends FieldValues> = {
@@ -35,7 +29,7 @@ export function IconInputField<T extends FieldValues>({
 }: IconInputFieldProps<T>) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const toggleVisibility = (): void => setIsVisible(prevState => !prevState);
+  const toggleVisibility = (): void => setIsVisible((prevState) => !prevState);
   return (
     <FormField
       control={control}

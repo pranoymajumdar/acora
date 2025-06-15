@@ -1,9 +1,15 @@
-'use client';
-import { LucideCircleAlert, LucideCircleUserRound, LucideLayers, LucideLoader2, LucideLogOut, LucideUser } from "lucide-react";
-
+"use client";
+import {
+  LucideCircleAlert,
+  LucideCircleUserRound,
+  LucideLayers,
+  LucideLoader2,
+  LucideLogOut,
+  LucideUser,
+} from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,21 +21,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 
-
-
 export function UserMenuDropdown() {
-  const { data, isPending } = authClient.useSession();
-  const router = useRouter()
-  if (isPending) {
-    return <Button size='icon' variant='ghost'>
-      <LucideLoader2 />
-    </Button>
+  const { data, isPending, error } = authClient.useSession();
+  const router = useRouter();
+  if (isPending || !data) {
+    return (
+      <Button size="icon" variant="ghost" loading />
+    );
   }
 
-  if (!data) {
-    return <Button size='icon' variant='destructive'>
-      <LucideCircleAlert />
-    </Button>
+  if (error) {
+    return (
+      <Button size="icon" variant="destructive">
+        <LucideCircleAlert />
+      </Button>
+    );
   }
 
   return (
@@ -42,7 +48,7 @@ export function UserMenuDropdown() {
       <DropdownMenuContent className="max-w-64">
         <DropdownMenuLabel className="flex flex-col">
           <span>Signed in as</span>
-          <span className="text-foreground text-xs font-normal">{data.user.email}</span>
+          <span className="text-foreground text-xs font-normal">{data!.user.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -62,7 +68,7 @@ export function UserMenuDropdown() {
             await authClient.signOut({
               fetchOptions: {
                 onSuccess: () => {
-                  router.refresh()
+                  router.refresh();
                 },
               },
             });

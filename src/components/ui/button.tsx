@@ -30,7 +30,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  },
+  }
 );
 
 function Button({
@@ -40,8 +40,8 @@ function Button({
   asChild = false,
   loading = false,
   ...props
-}: React.ComponentProps<"button">
-  & VariantProps<typeof buttonVariants> & {
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     loading?: boolean;
   }) {
