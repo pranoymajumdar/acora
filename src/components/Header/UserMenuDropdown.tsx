@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 
-export function UserMenuDropdown() {
+export const UserMenuDropdown = () => {
   const { data, isPending, error } = authClient.useSession();
   const router = useRouter();
 

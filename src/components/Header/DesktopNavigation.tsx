@@ -10,7 +10,7 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 
 
-export async function DesktopNavigation() {
+export const DesktopNavigation = async () => {
   const categories = await db.category.findMany();
   return (
     <NavigationMenu className="hidden md:block">
@@ -41,12 +41,12 @@ export async function DesktopNavigation() {
   );
 }
 
-function ListItem({
+const ListItem = ({
   title,
   children,
   href,
   ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
+}: React.ComponentPropsWithoutRef<"li"> & { href: string }) => {
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
