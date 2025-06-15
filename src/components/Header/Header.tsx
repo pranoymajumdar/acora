@@ -3,6 +3,10 @@ import Link from "next/link";
 import { AcoraLogo } from "../Logo";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { Button } from "../ui/button";
+import { SignedIn } from "../SignedIn";
+import { UserMenuDropdown } from "./UserMenuDropdown";
+import { SignedOut } from "../SignedOut";
+import { LoginButton } from "./LoginButton";
 
 
 export const Header = () => {
@@ -22,6 +26,13 @@ export const Header = () => {
                     <Button variant="ghost" size="icon">
                         <LucideShoppingCart className="h-5 w-5" />
                     </Button>
+
+                    <SignedIn>
+                        <UserMenuDropdown />
+                    </SignedIn>
+
+                    <SignedOut><LoginButton /></SignedOut>
+
                 </div>
             </div>
         </header>
