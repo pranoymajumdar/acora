@@ -9,7 +9,6 @@ import {
 import { db } from "@/lib/db";
 import Link from "next/link";
 
-
 export const DesktopNavigation = async () => {
   const categories = await db.category.findMany();
   return (
@@ -25,11 +24,7 @@ export const DesktopNavigation = async () => {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {categories.map((category) => (
-                <ListItem
-                  key={category.id}
-                  title={category.name}
-                  href={`/category/${category.slug}`}
-                >
+                <ListItem key={category.id} title={category.name} href={`/${category.slug}`}>
                   {category.description}
                 </ListItem>
               ))}
@@ -37,9 +32,9 @@ export const DesktopNavigation = async () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
-    </NavigationMenu >
+    </NavigationMenu>
   );
-}
+};
 
 const ListItem = ({
   title,
@@ -57,4 +52,4 @@ const ListItem = ({
       </NavigationMenuLink>
     </li>
   );
-}
+};

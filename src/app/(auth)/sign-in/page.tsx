@@ -120,10 +120,7 @@ const SignInPage = () => {
                     <FormItem>
                       <div className="flex items-center justify-between">
                         <FormLabel htmlFor={field.name}>Password</FormLabel>
-                        <Link
-                          className="text-sm hover:underline"
-                          href="/forgot-password"
-                        >
+                        <Link className="text-sm hover:underline" href="/forgot-password">
                           Forgot password?
                         </Link>
                       </div>

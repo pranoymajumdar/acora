@@ -7,10 +7,7 @@ import { usePathname } from "next/navigation";
 export const LoginButton = () => {
   const pathName = usePathname();
   return (
-    <Link
-      className={buttonVariants()}
-      href={`/sign-in?callbackUrl=${pathName}`}
-    >
+    <Link className={buttonVariants()} href={`/sign-in?callbackUrl=${pathName}`}>
       Login
     </Link>
   );

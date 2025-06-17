@@ -25,7 +25,6 @@ export const UserMenuDropdown = () => {
   const { data, isPending, error } = authClient.useSession();
   const router = useRouter();
 
-
   if (isPending || !data) {
     return <Button size="icon" variant="ghost" loading />;
   }
@@ -80,4 +79,4 @@ export const UserMenuDropdown = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

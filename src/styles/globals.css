@@ -3,7 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 :root {
   --base-50: oklch(0.9849 0.0009 66.8);
   --base-100: oklch(0.9706 0.0017 67.8);
