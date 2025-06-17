@@ -6,6 +6,7 @@ model User {
     image         String?
     createdAt     DateTime
     updatedAt     DateTime
+    role          String
     sessions      Session[]
     accounts      Account[]
 

@@ -1,19 +1,23 @@
-import { LucideShoppingCart } from "lucide-react";
+import { LucideCircleUserRound, LucideShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { AcoraLogo } from "../Logo";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { Button } from "../ui/button";
-import { SignedIn } from "../SignedIn";
-import { UserMenuDropdown } from "./UserMenuDropdown";
-import { SignedOut } from "../SignedOut";
+import { UserMenuDropdown } from "../UserMenuDropdown";
 import { LoginButton } from "./LoginButton";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export const Header = () => {
+export const Header = async () => {
+  const data = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 flex h-16 items-center justify-between">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="font-bold text-xl">
+        <Link href="/" className="text-xl font-bold">
           <AcoraLogo size={10} />
         </Link>
 
@@ -26,13 +30,15 @@ export const Header = () => {
             <LucideShoppingCart className="h-5 w-5" />
           </Button>
 
-          <SignedIn>
-            <UserMenuDropdown />
-          </SignedIn>
-
-          <SignedOut>
+          {data?.user ? (
+            <UserMenuDropdown user={data?.user}>
+              <Button size="icon" variant="ghost" aria-label="Open account menu">
+                <LucideCircleUserRound size={16} aria-hidden="true" />
+              </Button>
+            </UserMenuDropdown>
+          ) : (
             <LoginButton />
-          </SignedOut>
+          )}
         </div>
       </div>
     </header>

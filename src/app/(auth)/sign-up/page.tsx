@@ -84,7 +84,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-w-full my-20">
+    <div className="my-20 flex min-w-full items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">Sign In</CardTitle>
@@ -112,7 +112,7 @@ const SignUpPage = () => {
                             type="text"
                             {...field}
                           />
-                          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                             <LucideUser size={16} />
                           </div>
                         </div>
@@ -136,7 +136,7 @@ const SignUpPage = () => {
                             type="email"
                             {...field}
                           />
-                          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                             <LucideAtSign size={16} />
                           </div>
                         </div>
@@ -160,7 +160,7 @@ const SignUpPage = () => {
                             type={isVisible ? "text" : "password"}
                             {...field}
                           />
-                          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                             <LucideLock size={16} />
                           </div>
 
@@ -196,7 +196,7 @@ const SignUpPage = () => {
                             type={isVisible ? "text" : "password"}
                             {...field}
                           />
-                          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                             <LucideLock size={16} />
                           </div>
 
@@ -224,10 +224,10 @@ const SignUpPage = () => {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex items-center justify-center text-muted-foreground gap-2">
+        <CardFooter className="flex items-center justify-center gap-2 text-muted-foreground">
           <p>{"Already have an account ?"}</p>
           <Link
-            className="text-sm font-medium hover:underline text-foreground"
+            className="text-sm font-medium text-foreground hover:underline"
             href={`/sign-in?callbackUrl=${callbackUrl}`}
           >
             Sign in

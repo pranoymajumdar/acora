@@ -47,7 +47,7 @@ const ListItem = ({
       <NavigationMenuLink asChild>
         <Link href={href}>
           <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
         </Link>
       </NavigationMenuLink>
     </li>

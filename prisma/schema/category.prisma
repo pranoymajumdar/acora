@@ -12,4 +12,6 @@ model Category {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@map("categories")
 }
