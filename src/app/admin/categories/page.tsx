@@ -27,7 +27,6 @@ const AdminCategories = async () => {
         <TableCaption>A list of your categories.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Id</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Slug</TableHead>
             <TableHead>Parent</TableHead>
@@ -41,7 +40,12 @@ const AdminCategories = async () => {
               <TableCell>{category.slug}</TableCell>
               <TableCell>{category.parent ? category.parent.name : "No parent"}</TableCell>
               <TableCell>
-                <CategoryActionButton id={category.id} />
+                <CategoryActionButton
+                  category={{
+                    id: category.id,
+                    name: category.name,
+                  }}
+                />
               </TableCell>
             </TableRow>
           ))}

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { LucideFolderPlus } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -12,10 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { createCategorySchema, type CreateCategorySchema } from "@/zod-schemas/createCategory";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -24,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -32,23 +27,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { createCategoryAction } from "@/server/category/createCategory";
+import { createCategorySchema, type CreateCategorySchema } from "@/zod-schemas/createCategory";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Category } from "@prisma/client";
+import { LucideFolderPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { faker } from "@faker-js/faker";
 
 export const CreateCategoryDialog = ({ categories }: { categories: Category[] }) => {
+  const defaultCategoryName = faker.commerce.productAdjective();
   const form = useForm<CreateCategorySchema>({
     resolver: zodResolver(createCategorySchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      parentId: "",
+      name: defaultCategoryName,
+      slug: defaultCategoryName.replaceAll(" ", "-").toLowerCase(),
+      description: faker.commerce.productDescription(),
     },
   });
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const onSubmit = (values: CreateCategorySchema) => {
-    console.log(values);
+    startTransition(async () => {
+      const result = await createCategoryAction(values);
+      if (result.success) {
+        router.refresh();
+        form.reset();
+        setDialogOpen(false);
+        toast.success(`Category ${result.data.name} successfully created.`);
+        return;
+      }
+
+      toast.error(result.error);
+
+      return;
+    });
   };
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button>
           <LucideFolderPlus />
@@ -70,7 +92,7 @@ export const CreateCategoryDialog = ({ categories }: { categories: Category[] })
                   <FormItem>
                     <FormLabel>Category Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Plain T-Shirts" {...field} />
+                      <Input disabled={isPending} placeholder="Plain T-Shirts" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -83,13 +105,25 @@ export const CreateCategoryDialog = ({ categories }: { categories: Category[] })
                   <FormItem>
                     <FormLabel>Category Slug</FormLabel>
                     <FormControl>
-                      <Input placeholder="plain-t-shirts" {...field} />
+                      <Input disabled={isPending} placeholder="plain-t-shirts" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category Description</FormLabel>
+                    <FormControl>
+                      <Textarea disabled={isPending} placeholder="plain-t-shirts" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="parentId"
@@ -97,7 +131,7 @@ export const CreateCategoryDialog = ({ categories }: { categories: Category[] })
                   <FormItem>
                     <FormLabel>Select Parent</FormLabel>
                     <Select
-                      disabled={!categories || categories.length === 0}
+                      disabled={!categories || categories.length === 0 || isPending}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
@@ -120,15 +154,19 @@ export const CreateCategoryDialog = ({ categories }: { categories: Category[] })
                 )}
               />
             </div>
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button disabled={isPending} type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button loading={isPending} type="submit">
+                Save changes
+              </Button>
+            </DialogFooter>
           </form>
         </Form>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
