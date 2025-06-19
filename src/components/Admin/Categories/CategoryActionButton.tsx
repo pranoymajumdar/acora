@@ -29,12 +29,15 @@ export const CategoryActionButton = ({ category }: { category: Pick<Category, "i
         <DropdownMenuItem
           onSelect={async () => {
             const id = toast.loading("Processing...");
-            await deleteCategoryAction({
-              id: category.id,
-            });
+            const result = await deleteCategoryAction(category.id);
             toast.dismiss(id);
-            router.refresh();
-            toast.success(`Category ${category.name} deleted successfully.`);
+            if (result.success) {
+              router.refresh();
+              toast.success(`Category ${category.name} deleted successfully.`);
+              return;
+            }
+
+            toast.error(result.error);
           }}
         >
           Delete

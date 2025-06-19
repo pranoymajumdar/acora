@@ -4,18 +4,14 @@ import { createCategorySchema } from "@/zod-schemas/createCategory";
 import { db } from "@/lib/db";
 import { err, ok, type ActionResult } from "@/lib/actionResult";
 import type { Category } from "@prisma/client";
+import { checkCategoryExistence } from "./internal";
+import { logger } from "@/lib/logger";
+
+const log = logger.child({ module: "server-action:createCategory" });
 
 const checkParentExistence = async (id: string) => {
   const parentCategory = await db.category.findUnique({ where: { id } });
   return !!parentCategory;
-};
-
-const checkCategoryExistence = async (slug: string) => {
-  const category = await db.category.findUnique({
-    where: { slug },
-  });
-
-  return !!category;
 };
 
 export const createCategoryAction = async (
@@ -28,7 +24,7 @@ export const createCategoryAction = async (
   if (parsed.data.parentId && !(await checkParentExistence(parsed.data.parentId)))
     return err("Invalid parent category id.");
 
-  if (await checkCategoryExistence(parsed.data.slug))
+  if (await checkCategoryExistence("slug", parsed.data.slug))
     return err("Category with the slug already exists.");
 
   try {
@@ -38,6 +34,7 @@ export const createCategoryAction = async (
 
     return ok(category);
   } catch (error) {
+    log.error(error);
     return err("Internal server error.");
   }
 };
