@@ -27,6 +27,7 @@ export const CategoryActionButton = ({ category }: { category: Pick<Category, "i
         <DropdownMenuLabel>{category.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
+          variant="destructive"
           onSelect={async () => {
             const id = toast.loading("Processing...");
             const result = await deleteCategoryAction(category.id);
